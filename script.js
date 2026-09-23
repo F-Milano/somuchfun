@@ -3,7 +3,7 @@ const projects = document.querySelectorAll(".project");
 let highestZ = 1;
 
 // Minimum distance between an icon and the edge of the screen
-const screenMargin = 30;
+const screenMargin = 50;
 
 
 projects.forEach((project) => {
