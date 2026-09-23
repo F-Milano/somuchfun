@@ -2,51 +2,146 @@
 <html lang="en">
 
 <head>
+
+    <!-- =========================================
+         BASIC PAGE SETTINGS
+         ========================================= -->
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>So Much Fun</title>
 
-    <link rel="stylesheet" href="style.css">
+
+    <!-- =========================================
+         PRELOAD CUSTOM FONT
+
+         This tells the browser to start downloading
+         the Dark Spikes font immediately.
+
+         This is especially useful on smartphones.
+         ========================================= -->
+
+    <link
+        rel="preload"
+        href="fonts/Dark Spikes.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+    >
+
+
+    <!-- =========================================
+         STYLESHEET
+
+         ?v=4 helps prevent the browser from using
+         an old cached version during development.
+         ========================================= -->
+
+    <link
+        rel="stylesheet"
+        href="style.css?v=4"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- CENTRAL TITLE / ABOUT LINK -->
 
-    <a id="about-link" href="about.html">
+    <!-- =========================================
+         CENTRAL TITLE / ABOUT LINK
+
+         Clicking "SO MUCH FUN" will eventually
+         open the About page.
+         ========================================= -->
+
+    <a
+        id="about-link"
+        href="about.html"
+    >
         SO MUCH FUN
     </a>
 
 
-    <!-- PROJECT CANVAS -->
+
+    <!-- =========================================
+         PROJECT CANVAS
+
+         Each project consists of:
+         - a link to its project page
+         - an image used as the homepage icon
+
+         JavaScript positions these randomly.
+         ========================================= -->
 
     <main id="canvas">
 
-        <a class="project" href="projects/ciabot-montebellina.html">
+
+        <!-- CIABOT MONTEBELLINA -->
+
+        <a
+            class="project"
+            href="projects/ciabot-montebellina.html"
+        >
             <img
                 src="images/CiabotMontebellina.webp"
                 alt="Ciabot Montebellina"
             >
         </a>
 
-        <a class="project" href="projects/cerimonias.html">
+
+
+        <!-- FURETZU -->
+
+        <a
+            class="project"
+            href="projects/furetzu.html"
+        >
             <img
-                src="images/cerimonias.webp"
-                alt="Cerimonias"
+                src="images/furetzu.webp"
+                alt="Furetzu"
             >
         </a>
 
-        <a class="project" href="projects/smart-pasta.html">
+
+
+        <!-- SMART PASTA -->
+
+        <a
+            class="project"
+            href="projects/smart-pasta.html"
+        >
             <img
                 src="images/smartPasta.webp"
                 alt="Smart Pasta"
             >
         </a>
 
+
     </main>
 
-    <script src="script.js"></script>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+
+         Handles:
+         - random project positions
+         - dragging
+         - screen boundaries
+         - responsive repositioning
+
+         ?v=4 prevents an older cached script
+         from being used during development.
+         ========================================= -->
+
+    <script src="script.js?v=4"></script>
+
 
 </body>
 
