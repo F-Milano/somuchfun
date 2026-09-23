@@ -1,18 +1,6 @@
 // ============================================================
-// SO MUCH FUN — HOMEPAGE
+// SO MUCH FUN — HOMEPAGE + PROJECT OVERLAY
 // ============================================================
-//
-// The homepage no longer contains a hardcoded list of projects.
-// Projects are imported from /projects/projects.js.
-//
-// Each project is:
-// - created automatically
-// - positioned randomly
-// - draggable
-// - kept inside the viewport
-//
-// ============================================================
-
 
 import { projects } from "./projects/projects.js";
 
@@ -28,43 +16,67 @@ let highestZ = 1;
 
 
 // ============================================================
-// CANVAS
+// HOMEPAGE ELEMENTS
 // ============================================================
 
 const canvas = document.querySelector("#canvas");
 
 
 // ============================================================
-// CREATE PROJECT ICONS
+// PROJECT OVERLAY ELEMENTS
+// ============================================================
+
+const projectOverlay = document.querySelector("#project-overlay");
+const projectWindow = document.querySelector("#project-window");
+const projectContent = document.querySelector("#project-content");
+
+const projectClose = document.querySelector("#project-close");
+const projectPrev = document.querySelector("#project-prev");
+const projectNext = document.querySelector("#project-next");
+
+
+// Currently open project
+let activeProject = null;
+
+// Slide 0 = project information
+// Slide 1 = first image
+// Slide 2 = second image
+// etc.
+let currentSlide = 0;
+
+
+// ============================================================
+// CREATE HOMEPAGE PROJECT ICONS
 // ============================================================
 
 projects.forEach((project) => {
 
-    // Create the project element.
     const projectElement = document.createElement("a");
 
     projectElement.classList.add("project");
     projectElement.href = "#";
     projectElement.dataset.project = project.id;
 
-    // Create the image.
+
+    // Create project icon image
     const image = document.createElement("img");
 
     image.src = project.icon;
     image.alt = project.title;
     image.draggable = false;
 
+
     projectElement.appendChild(image);
     canvas.appendChild(projectElement);
 
 
-    // --------------------------------------------------------
-    // INITIALIZE ONLY WHEN THIS IMAGE IS READY
-    // --------------------------------------------------------
-
+    // Initialize this project as soon as its image is ready.
     if (image.complete && image.naturalWidth > 0) {
+
         initializeProject(projectElement);
+
     } else {
+
         image.addEventListener(
             "load",
             () => initializeProject(projectElement),
@@ -75,7 +87,7 @@ projects.forEach((project) => {
 
 
 // ============================================================
-// INITIALIZE PROJECT
+// INITIALIZE HOMEPAGE PROJECT
 // ============================================================
 
 function initializeProject(projectElement) {
@@ -85,14 +97,13 @@ function initializeProject(projectElement) {
 
     projectElement.dataset.initialized = "true";
 
-    // The project remains invisible until it has been
-    // measured and positioned correctly.
+    // Reveal only after positioning.
     projectElement.style.opacity = "1";
 }
 
 
 // ============================================================
-// RANDOM POSITION
+// RANDOM HOMEPAGE POSITION
 // ============================================================
 
 function positionProjectRandomly(projectElement) {
@@ -100,10 +111,6 @@ function positionProjectRandomly(projectElement) {
     const width = projectElement.offsetWidth;
     const height = projectElement.offsetHeight;
 
-    /*
-        Math.max() protects us against an unusual case where
-        an image is larger than the available viewport.
-    */
 
     const availableWidth = Math.max(
         0,
@@ -115,6 +122,7 @@ function positionProjectRandomly(projectElement) {
         window.innerHeight - height - screenMargin * 2
     );
 
+
     const x =
         screenMargin +
         Math.random() * availableWidth;
@@ -123,26 +131,26 @@ function positionProjectRandomly(projectElement) {
         screenMargin +
         Math.random() * availableHeight;
 
+
     projectElement.style.left = `${x}px`;
     projectElement.style.top = `${y}px`;
 }
 
 
 // ============================================================
-// DRAGGING
+// HOMEPAGE DRAGGING
 // ============================================================
 
 function activateDragging(projectElement) {
 
     let dragging = false;
+    let moved = false;
 
     let startPointerX = 0;
     let startPointerY = 0;
 
     let startElementX = 0;
     let startElementY = 0;
-
-    let moved = false;
 
 
     // --------------------------------------------------------
@@ -163,8 +171,17 @@ function activateDragging(projectElement) {
         startElementY =
             parseFloat(projectElement.style.top) || 0;
 
+
         highestZ += 1;
-        projectElement.style.zIndex = highestZ;
+
+        /*
+            Keep homepage icons below the title and below
+            the project overlay.
+        */
+
+        projectElement.style.zIndex =
+            Math.min(highestZ, 999);
+
 
         projectElement.setPointerCapture(event.pointerId);
 
@@ -180,6 +197,7 @@ function activateDragging(projectElement) {
 
         if (!dragging) return;
 
+
         const deltaX =
             event.clientX - startPointerX;
 
@@ -187,14 +205,16 @@ function activateDragging(projectElement) {
             event.clientY - startPointerY;
 
 
-        // Determine whether this is really a drag
-        // rather than tiny finger/mouse movement.
+        const distance = Math.sqrt(
+            deltaX * deltaX +
+            deltaY * deltaY
+        );
 
-        const distance =
-            Math.sqrt(
-                deltaX * deltaX +
-                deltaY * deltaY
-            );
+
+        /*
+            Only consider it a drag after the pointer
+            has moved more than a few pixels.
+        */
 
         if (distance > dragThreshold) {
             moved = true;
@@ -203,6 +223,7 @@ function activateDragging(projectElement) {
 
         const width = projectElement.offsetWidth;
         const height = projectElement.offsetHeight;
+
 
         const maxX = Math.max(
             screenMargin,
@@ -222,7 +243,7 @@ function activateDragging(projectElement) {
             startElementY + deltaY;
 
 
-        // Keep the entire icon inside the safe area.
+        // Keep icon inside the viewport.
 
         newX = Math.min(
             Math.max(newX, screenMargin),
@@ -250,9 +271,11 @@ function activateDragging(projectElement) {
 
         dragging = false;
 
+
         if (
             projectElement.hasPointerCapture(event.pointerId)
         ) {
+
             projectElement.releasePointerCapture(
                 event.pointerId
             );
@@ -279,39 +302,391 @@ function activateDragging(projectElement) {
 
         event.preventDefault();
 
-        // Ignore a click generated at the end of a drag.
+
+        /*
+            If the pointer was dragged, do not open
+            the project.
+        */
+
         if (moved) {
+
             moved = false;
+
             return;
         }
 
-        /*
-            Temporary.
 
-            In the next step this will open the project
-            information/slideshow window.
-        */
+        const projectId =
+            projectElement.dataset.project;
 
-        console.log(
-            "Open project:",
-            projectElement.dataset.project
-        );
+
+        const selectedProject =
+            projects.find(
+                (project) => project.id === projectId
+            );
+
+
+        if (selectedProject) {
+            openProject(selectedProject);
+        }
     });
 }
 
 
 // ============================================================
-// WINDOW RESIZE
+// OPEN PROJECT
 // ============================================================
-//
-// If the browser changes size or the phone rotates,
-// keep every initialized project inside the viewport.
+
+function openProject(project) {
+
+    activeProject = project;
+    currentSlide = 0;
+
+
+    /*
+        Apply the colours defined in that project's
+        project.js file.
+    */
+
+    projectWindow.style.backgroundColor =
+        project.color || "#711FFF";
+
+    projectWindow.style.color =
+        project.textColor || "#FF3224";
+
+
+    // Display overlay.
+    projectOverlay.classList.add("is-open");
+
+    projectOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    renderSlide();
+}
+
+
+// ============================================================
+// CLOSE PROJECT
+// ============================================================
+
+function closeProject() {
+
+    projectOverlay.classList.remove("is-open");
+
+    projectOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    projectContent.innerHTML = "";
+
+    activeProject = null;
+    currentSlide = 0;
+}
+
+
+// ============================================================
+// RENDER CURRENT SLIDE
+// ============================================================
+
+function renderSlide() {
+
+    if (!activeProject) return;
+
+
+    /*
+        Slide 0 is always the project information.
+
+        Slides 1, 2, 3... correspond to entries in
+        activeProject.images.
+    */
+
+    if (currentSlide === 0) {
+
+        renderProjectInfo();
+
+    } else {
+
+        renderProjectImage();
+    }
+
+
+    updateNavigation();
+}
+
+
+// ============================================================
+// RENDER PROJECT INFORMATION
+// ============================================================
+
+function renderProjectInfo() {
+
+    projectContent.innerHTML = "";
+
+
+    const info = document.createElement("div");
+
+    info.classList.add("project-info");
+
+
+    // --------------------------------------------------------
+    // TITLE
+    // --------------------------------------------------------
+
+    const title = document.createElement("h1");
+
+    title.textContent = activeProject.title;
+
+    info.appendChild(title);
+
+
+    // --------------------------------------------------------
+    // DESCRIPTION
+    // --------------------------------------------------------
+
+    if (activeProject.description.trim()) {
+
+        const description = document.createElement("p");
+
+        description.textContent =
+            activeProject.description.trim();
+
+        info.appendChild(description);
+    }
+
+
+    // --------------------------------------------------------
+    // YEAR
+    // --------------------------------------------------------
+
+    if (activeProject.year) {
+
+        const year = document.createElement("p");
+
+        year.textContent =
+            `Year: ${activeProject.year}`;
+
+        info.appendChild(year);
+    }
+
+
+    // --------------------------------------------------------
+    // LOCATION
+    // --------------------------------------------------------
+
+    if (activeProject.location) {
+
+        const location = document.createElement("p");
+
+        location.textContent =
+            `Location: ${activeProject.location}`;
+
+        info.appendChild(location);
+    }
+
+
+    // --------------------------------------------------------
+    // CREDITS
+    // --------------------------------------------------------
+
+    if (activeProject.credits.trim()) {
+
+        const credits = document.createElement("p");
+
+        credits.textContent =
+            activeProject.credits.trim();
+
+        info.appendChild(credits);
+    }
+
+
+    projectContent.appendChild(info);
+}
+
+
+// ============================================================
+// RENDER PROJECT IMAGE
+// ============================================================
+
+function renderProjectImage() {
+
+    projectContent.innerHTML = "";
+
+
+    /*
+        currentSlide 1 = images[0]
+        currentSlide 2 = images[1]
+        etc.
+    */
+
+    const imageIndex =
+        currentSlide - 1;
+
+
+    const imagePath =
+        activeProject.images[imageIndex];
+
+
+    if (!imagePath) return;
+
+
+    const image =
+        document.createElement("img");
+
+
+    image.src = imagePath;
+
+    image.alt =
+        `${activeProject.title} — image ${currentSlide}`;
+
+    image.classList.add(
+        "project-slide-image"
+    );
+
+    image.draggable = false;
+
+
+    projectContent.appendChild(image);
+}
+
+
+// ============================================================
+// UPDATE NAVIGATION BUTTONS
+// ============================================================
+
+function updateNavigation() {
+
+    if (!activeProject) return;
+
+
+    /*
+        Previous is disabled on INFO.
+    */
+
+    projectPrev.disabled =
+        currentSlide === 0;
+
+
+    /*
+        Total number of slides is:
+
+        INFO + number of images.
+
+        Because INFO is slide 0, the highest valid
+        currentSlide value equals images.length.
+    */
+
+    projectNext.disabled =
+        currentSlide >= activeProject.images.length;
+}
+
+
+// ============================================================
+// PREVIOUS SLIDE
+// ============================================================
+
+function previousSlide() {
+
+    if (!activeProject) return;
+
+    if (currentSlide <= 0) return;
+
+
+    currentSlide -= 1;
+
+    renderSlide();
+}
+
+
+// ============================================================
+// NEXT SLIDE
+// ============================================================
+
+function nextSlide() {
+
+    if (!activeProject) return;
+
+    if (
+        currentSlide >=
+        activeProject.images.length
+    ) {
+        return;
+    }
+
+
+    currentSlide += 1;
+
+    renderSlide();
+}
+
+
+// ============================================================
+// OVERLAY BUTTON EVENTS
+// ============================================================
+
+projectClose.addEventListener(
+    "click",
+    closeProject
+);
+
+
+projectPrev.addEventListener(
+    "click",
+    previousSlide
+);
+
+
+projectNext.addEventListener(
+    "click",
+    nextSlide
+);
+
+
+// ============================================================
+// KEYBOARD CONTROLS
+// ============================================================
+
+document.addEventListener("keydown", (event) => {
+
+    if (!activeProject) return;
+
+
+    if (event.key === "Escape") {
+
+        closeProject();
+
+        return;
+    }
+
+
+    if (event.key === "ArrowLeft") {
+
+        previousSlide();
+
+        return;
+    }
+
+
+    if (event.key === "ArrowRight") {
+
+        nextSlide();
+    }
+});
+
+
+// ============================================================
+// WINDOW RESIZE
 // ============================================================
 
 window.addEventListener("resize", () => {
 
     const projectElements =
         document.querySelectorAll(".project");
+
 
     projectElements.forEach((projectElement) => {
 
@@ -322,8 +697,12 @@ window.addEventListener("resize", () => {
         }
 
 
-        const width = projectElement.offsetWidth;
-        const height = projectElement.offsetHeight;
+        const width =
+            projectElement.offsetWidth;
+
+        const height =
+            projectElement.offsetHeight;
+
 
         const maxX = Math.max(
             screenMargin,
@@ -337,10 +716,14 @@ window.addEventListener("resize", () => {
 
 
         let x =
-            parseFloat(projectElement.style.left) || screenMargin;
+            parseFloat(
+                projectElement.style.left
+            ) || screenMargin;
 
         let y =
-            parseFloat(projectElement.style.top) || screenMargin;
+            parseFloat(
+                projectElement.style.top
+            ) || screenMargin;
 
 
         x = Math.min(
@@ -354,7 +737,10 @@ window.addEventListener("resize", () => {
         );
 
 
-        projectElement.style.left = `${x}px`;
-        projectElement.style.top = `${y}px`;
+        projectElement.style.left =
+            `${x}px`;
+
+        projectElement.style.top =
+            `${y}px`;
     });
 });
