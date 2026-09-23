@@ -1,456 +1,360 @@
-/* =========================================================
-   SO MUCH FUN — HOMEPAGE INTERACTION
-   ========================================================= */
+// ============================================================
+// SO MUCH FUN — HOMEPAGE
+// ============================================================
+//
+// The homepage no longer contains a hardcoded list of projects.
+// Projects are imported from /projects/projects.js.
+//
+// Each project is:
+// - created automatically
+// - positioned randomly
+// - draggable
+// - kept inside the viewport
+//
+// ============================================================
 
 
-/* =========================================================
-   SETTINGS
-   ========================================================= */
+import { projects } from "./projects/projects.js";
 
-/*
-   Minimum distance between a project image
-   and the edge of the browser window.
-*/
+
+// ============================================================
+// SETTINGS
+// ============================================================
 
 const screenMargin = 30;
-
-
-// Get all project elements.
-
-const projects = document.querySelectorAll(".project");
-
-
-// Used to bring the last dragged project to the front.
+const dragThreshold = 5;
 
 let highestZ = 1;
 
 
+// ============================================================
+// CANVAS
+// ============================================================
 
-/* =========================================================
-   INITIALIZE PROJECTS
-   ========================================================= */
+const canvas = document.querySelector("#canvas");
 
-/*
-   IMPORTANT:
 
-   We do NOT wait for the entire page to load anymore.
-
-   Instead, every project is initialized independently
-   as soon as its own image is ready.
-
-   This means that one slow-loading image does not prevent
-   all the other projects from appearing.
-*/
+// ============================================================
+// CREATE PROJECT ICONS
+// ============================================================
 
 projects.forEach((project) => {
 
-    const image = project.querySelector("img");
+    // Create the project element.
+    const projectElement = document.createElement("a");
+
+    projectElement.classList.add("project");
+    projectElement.href = "#";
+    projectElement.dataset.project = project.id;
+
+    // Create the image.
+    const image = document.createElement("img");
+
+    image.src = project.icon;
+    image.alt = project.title;
+    image.draggable = false;
+
+    projectElement.appendChild(image);
+    canvas.appendChild(projectElement);
 
 
-    /*
-       If the image is already cached / loaded,
-       initialize the project immediately.
-    */
+    // --------------------------------------------------------
+    // INITIALIZE ONLY WHEN THIS IMAGE IS READY
+    // --------------------------------------------------------
 
     if (image.complete && image.naturalWidth > 0) {
-
-        initializeProject(project);
-
-    }
-
-
-    /*
-       Otherwise wait only for THIS image.
-    */
-
-    else {
-
+        initializeProject(projectElement);
+    } else {
         image.addEventListener(
             "load",
-            () => initializeProject(project),
+            () => initializeProject(projectElement),
             { once: true }
         );
-
     }
-
 });
 
 
+// ============================================================
+// INITIALIZE PROJECT
+// ============================================================
 
-/* =========================================================
-   INITIALIZE ONE PROJECT
-   ========================================================= */
+function initializeProject(projectElement) {
 
-function initializeProject(project) {
+    positionProjectRandomly(projectElement);
+    activateDragging(projectElement);
 
+    projectElement.dataset.initialized = "true";
 
-    /*
-       First calculate its random position while
-       it is still invisible.
-    */
-
-    positionProjectRandomly(project);
-
-
-    /*
-       Activate mouse / touch dragging.
-    */
-
-    makeProjectDraggable(project);
-
-
-    /*
-       The project is now correctly positioned,
-       so make it visible.
-    */
-
-    project.style.opacity = "1";
-
+    // The project remains invisible until it has been
+    // measured and positioned correctly.
+    projectElement.style.opacity = "1";
 }
 
 
+// ============================================================
+// RANDOM POSITION
+// ============================================================
 
-/* =========================================================
-   RANDOM POSITION
-   ========================================================= */
+function positionProjectRandomly(projectElement) {
 
-function positionProjectRandomly(project) {
-
-
-    /*
-       Get the real dimensions of the project
-       after its image has loaded.
-    */
-
-    const projectWidth = project.offsetWidth;
-    const projectHeight = project.offsetHeight;
-
-
+    const width = projectElement.offsetWidth;
+    const height = projectElement.offsetHeight;
 
     /*
-       Define the safe area.
-
-       screenMargin is applied to all four sides.
+        Math.max() protects us against an unusual case where
+        an image is larger than the available viewport.
     */
 
-    const minX = screenMargin;
-    const minY = screenMargin;
+    const availableWidth = Math.max(
+        0,
+        window.innerWidth - width - screenMargin * 2
+    );
 
-    const maxX =
-        window.innerWidth -
-        projectWidth -
-        screenMargin;
+    const availableHeight = Math.max(
+        0,
+        window.innerHeight - height - screenMargin * 2
+    );
 
-    const maxY =
-        window.innerHeight -
-        projectHeight -
-        screenMargin;
+    const x =
+        screenMargin +
+        Math.random() * availableWidth;
 
+    const y =
+        screenMargin +
+        Math.random() * availableHeight;
 
-
-    /*
-       Generate random coordinates inside
-       the safe area.
-    */
-
-    const randomX =
-        minX + Math.random() * (maxX - minX);
-
-    const randomY =
-        minY + Math.random() * (maxY - minY);
-
-
-
-    /*
-       Apply position.
-    */
-
-    project.style.left = randomX + "px";
-    project.style.top = randomY + "px";
-
+    projectElement.style.left = `${x}px`;
+    projectElement.style.top = `${y}px`;
 }
 
 
+// ============================================================
+// DRAGGING
+// ============================================================
 
-/* =========================================================
-   DRAGGING
-   ========================================================= */
-
-function makeProjectDraggable(project) {
-
+function activateDragging(projectElement) {
 
     let dragging = false;
+
+    let startPointerX = 0;
+    let startPointerY = 0;
+
+    let startElementX = 0;
+    let startElementY = 0;
+
     let moved = false;
 
-    let offsetX = 0;
-    let offsetY = 0;
 
+    // --------------------------------------------------------
+    // POINTER DOWN
+    // --------------------------------------------------------
 
-
-    /* ---------------------------------------------------------
-       POINTER DOWN
-       --------------------------------------------------------- */
-
-    project.addEventListener("pointerdown", (event) => {
-
+    projectElement.addEventListener("pointerdown", (event) => {
 
         dragging = true;
-
         moved = false;
 
+        startPointerX = event.clientX;
+        startPointerY = event.clientY;
 
+        startElementX =
+            parseFloat(projectElement.style.left) || 0;
 
-        /*
-           Remember where inside the project
-           the click/touch happened.
-        */
+        startElementY =
+            parseFloat(projectElement.style.top) || 0;
 
-        offsetX =
-            event.clientX -
-            project.offsetLeft;
+        highestZ += 1;
+        projectElement.style.zIndex = highestZ;
 
-        offsetY =
-            event.clientY -
-            project.offsetTop;
-
-
-
-        /*
-           Bring the selected project to the front.
-        */
-
-        highestZ++;
-
-        project.style.zIndex = highestZ;
-
-
-
-        /*
-           Continue receiving pointer events even if
-           the pointer moves outside the image.
-        */
-
-        project.setPointerCapture(event.pointerId);
-
+        projectElement.setPointerCapture(event.pointerId);
 
         event.preventDefault();
-
     });
 
 
+    // --------------------------------------------------------
+    // POINTER MOVE
+    // --------------------------------------------------------
 
-    /* ---------------------------------------------------------
-       POINTER MOVE
-       --------------------------------------------------------- */
-
-    project.addEventListener("pointermove", (event) => {
-
+    projectElement.addEventListener("pointermove", (event) => {
 
         if (!dragging) return;
 
+        const deltaX =
+            event.clientX - startPointerX;
 
-        moved = true;
-
-
-
-        /*
-           Proposed new position.
-        */
-
-        let x =
-            event.clientX -
-            offsetX;
-
-        let y =
-            event.clientY -
-            offsetY;
+        const deltaY =
+            event.clientY - startPointerY;
 
 
+        // Determine whether this is really a drag
+        // rather than tiny finger/mouse movement.
 
-        /*
-           Calculate the current safe area.
-        */
+        const distance =
+            Math.sqrt(
+                deltaX * deltaX +
+                deltaY * deltaY
+            );
 
-        const minX = screenMargin;
-        const minY = screenMargin;
-
-        const maxX =
-            window.innerWidth -
-            project.offsetWidth -
-            screenMargin;
-
-        const maxY =
-            window.innerHeight -
-            project.offsetHeight -
-            screenMargin;
-
-
-
-        /*
-           Keep the COMPLETE project inside
-           the safe area.
-        */
-
-        x = Math.max(
-            minX,
-            Math.min(x, maxX)
-        );
-
-        y = Math.max(
-            minY,
-            Math.min(y, maxY)
-        );
-
-
-
-        /*
-           Apply position.
-        */
-
-        project.style.left = x + "px";
-        project.style.top = y + "px";
-
-    });
-
-
-
-    /* ---------------------------------------------------------
-       POINTER UP
-       --------------------------------------------------------- */
-
-    project.addEventListener("pointerup", () => {
-
-        dragging = false;
-
-    });
-
-
-
-    /* ---------------------------------------------------------
-       POINTER CANCEL
-       --------------------------------------------------------- */
-
-    project.addEventListener("pointercancel", () => {
-
-        dragging = false;
-
-    });
-
-
-
-    /* ---------------------------------------------------------
-       CLICK
-       --------------------------------------------------------- */
-
-    project.addEventListener("click", (event) => {
-
-
-        /*
-           If the project moved, interpret the interaction
-           as a drag rather than a click.
-        */
-
-        if (moved) {
-
-            event.preventDefault();
-
+        if (distance > dragThreshold) {
+            moved = true;
         }
 
+
+        const width = projectElement.offsetWidth;
+        const height = projectElement.offsetHeight;
+
+        const maxX = Math.max(
+            screenMargin,
+            window.innerWidth - width - screenMargin
+        );
+
+        const maxY = Math.max(
+            screenMargin,
+            window.innerHeight - height - screenMargin
+        );
+
+
+        let newX =
+            startElementX + deltaX;
+
+        let newY =
+            startElementY + deltaY;
+
+
+        // Keep the entire icon inside the safe area.
+
+        newX = Math.min(
+            Math.max(newX, screenMargin),
+            maxX
+        );
+
+        newY = Math.min(
+            Math.max(newY, screenMargin),
+            maxY
+        );
+
+
+        projectElement.style.left = `${newX}px`;
+        projectElement.style.top = `${newY}px`;
     });
 
+
+    // --------------------------------------------------------
+    // END DRAG
+    // --------------------------------------------------------
+
+    function endDrag(event) {
+
+        if (!dragging) return;
+
+        dragging = false;
+
+        if (
+            projectElement.hasPointerCapture(event.pointerId)
+        ) {
+            projectElement.releasePointerCapture(
+                event.pointerId
+            );
+        }
+    }
+
+
+    projectElement.addEventListener(
+        "pointerup",
+        endDrag
+    );
+
+    projectElement.addEventListener(
+        "pointercancel",
+        endDrag
+    );
+
+
+    // --------------------------------------------------------
+    // CLICK / TAP
+    // --------------------------------------------------------
+
+    projectElement.addEventListener("click", (event) => {
+
+        event.preventDefault();
+
+        // Ignore a click generated at the end of a drag.
+        if (moved) {
+            moved = false;
+            return;
+        }
+
+        /*
+            Temporary.
+
+            In the next step this will open the project
+            information/slideshow window.
+        */
+
+        console.log(
+            "Open project:",
+            projectElement.dataset.project
+        );
+    });
 }
 
 
-
-/* =========================================================
-   WINDOW RESIZE
-   ========================================================= */
-
-/*
-   If the browser window changes size, make sure
-   every project remains inside the safe area.
-
-   We do NOT randomize the positions again.
-*/
+// ============================================================
+// WINDOW RESIZE
+// ============================================================
+//
+// If the browser changes size or the phone rotates,
+// keep every initialized project inside the viewport.
+// ============================================================
 
 window.addEventListener("resize", () => {
 
-    projects.forEach((project) => {
+    const projectElements =
+        document.querySelectorAll(".project");
 
+    projectElements.forEach((projectElement) => {
 
-        /*
-           Only correct projects that have already
-           been initialized.
-        */
-
-        if (project.style.opacity === "1") {
-
-            keepProjectInsideScreen(project);
-
+        if (
+            projectElement.dataset.initialized !== "true"
+        ) {
+            return;
         }
 
+
+        const width = projectElement.offsetWidth;
+        const height = projectElement.offsetHeight;
+
+        const maxX = Math.max(
+            screenMargin,
+            window.innerWidth - width - screenMargin
+        );
+
+        const maxY = Math.max(
+            screenMargin,
+            window.innerHeight - height - screenMargin
+        );
+
+
+        let x =
+            parseFloat(projectElement.style.left) || screenMargin;
+
+        let y =
+            parseFloat(projectElement.style.top) || screenMargin;
+
+
+        x = Math.min(
+            Math.max(x, screenMargin),
+            maxX
+        );
+
+        y = Math.min(
+            Math.max(y, screenMargin),
+            maxY
+        );
+
+
+        projectElement.style.left = `${x}px`;
+        projectElement.style.top = `${y}px`;
     });
-
 });
-
-
-
-/* =========================================================
-   KEEP PROJECT INSIDE SCREEN
-   ========================================================= */
-
-function keepProjectInsideScreen(project) {
-
-
-    /*
-       Calculate current boundaries.
-    */
-
-    const minX = screenMargin;
-    const minY = screenMargin;
-
-    const maxX =
-        window.innerWidth -
-        project.offsetWidth -
-        screenMargin;
-
-    const maxY =
-        window.innerHeight -
-        project.offsetHeight -
-        screenMargin;
-
-
-
-    /*
-       Read current position.
-    */
-
-    let x = project.offsetLeft;
-    let y = project.offsetTop;
-
-
-
-    /*
-       Clamp X and Y to the safe area.
-    */
-
-    x = Math.max(
-        minX,
-        Math.min(x, maxX)
-    );
-
-    y = Math.max(
-        minY,
-        Math.min(y, maxY)
-    );
-
-
-
-    /*
-       Apply corrected position.
-    */
-
-    project.style.left = x + "px";
-    project.style.top = y + "px";
-
-}
