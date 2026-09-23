@@ -7,14 +7,14 @@
    DESIGN VARIABLES
 
    Change these values to adjust the general appearance
-   of the website without searching through the CSS.
+   of the website.
    ========================================================= */
 
 :root {
 
     /* Page colours */
-    --background-color: #FF42DA;
-    --text-color: #FFFFFF;
+    --background-color: #FF5E1F;
+    --text-color: #711FFF;
 
 
     /* Project icon size — desktop */
@@ -23,7 +23,7 @@
     --project-max-width: 260px;
 
 
-    /* Central "SO MUCH FUN" title */
+    /* Central "SO MUCH FUN" title — desktop */
     --title-size: 10vw;
     --title-min-size: 60px;
     --title-max-size: 160px;
@@ -35,21 +35,16 @@
     --mobile-project-max-width: 180px;
 
 
-    /* Central title — mobile */
-    --mobile-title-size: 12vw;
-    --mobile-title-min-size: 34px;
-    --mobile-title-max-size: 70px;
+    /* Central "SO MUCH FUN" title — mobile */
+    --mobile-title-size: 16vw;
+    --mobile-title-min-size: 45px;
+    --mobile-title-max-size: 90px;
 }
 
 
 
 /* =========================================================
    CUSTOM FONT
-
-   Loads Dark Spikes directly from our /fonts folder.
-
-   The visitor does NOT need to have this font installed
-   on their computer.
    ========================================================= */
 
 @font-face {
@@ -66,9 +61,6 @@
 
 /* =========================================================
    BASIC RESET
-
-   Browsers add their own default margins and sizing rules.
-   We remove them so that the viewport behaves predictably.
    ========================================================= */
 
 * {
@@ -90,11 +82,6 @@ body {
 
 /* =========================================================
    PAGE
-
-   The homepage occupies the entire browser window.
-
-   overflow: hidden prevents scrollbars from appearing
-   when elements are being dragged.
    ========================================================= */
 
 body {
@@ -109,13 +96,7 @@ body {
 /* =========================================================
    CENTRAL TITLE / ABOUT LINK
 
-   "SO MUCH FUN" stays exactly in the centre of the viewport.
-
-   position: fixed means its position does not depend on
-   the project icons.
-
-   translate(-50%, -50%) compensates for the dimensions
-   of the text itself, producing true centre alignment.
+   The title remains exactly in the centre of the viewport.
    ========================================================= */
 
 #about-link {
@@ -147,13 +128,9 @@ body {
 
     /*
        Keep the title above the project images.
-
-       We can change this later if we want dragged images
-       to pass in front of the title.
     */
 
     z-index: 1000;
-
 
     cursor: pointer;
 }
@@ -162,11 +139,6 @@ body {
 
 /* =========================================================
    HOMEPAGE CANVAS
-
-   This is the area containing all draggable project icons.
-
-   100vw = 100% of viewport width
-   100vh = 100% of viewport height
    ========================================================= */
 
 #canvas {
@@ -183,18 +155,6 @@ body {
 
 /* =========================================================
    PROJECT ICON CONTAINER
-
-   Each .project is an <a> element containing one image.
-
-   JavaScript assigns its left/top position randomly
-   when the page loads.
-
-   The width is responsive:
-       minimum → 120px
-       preferred → 15% of viewport width
-       maximum → 260px
-
-   These values are controlled by the variables above.
    ========================================================= */
 
 .project {
@@ -211,25 +171,44 @@ body {
     );
 
 
+    /*
+       Initially hide every project.
+
+       JavaScript will first calculate its correct random
+       position and then make it visible.
+
+       This prevents the icons from briefly appearing
+       in the wrong position when the page loads.
+    */
+
+    opacity: 0;
+
+
+    /*
+       Very short fade-in after positioning.
+
+       We transition ONLY opacity.
+       Do not use "transition: all", because that would
+       interfere with dragging.
+    */
+
+    transition: opacity 0.15s ease;
+
+
     /* Mouse cursor */
 
     cursor: grab;
 
 
-    /*
-       Prevent accidental text selection while dragging.
-    */
+    /* Prevent text/image selection while dragging */
 
     user-select: none;
     -webkit-user-select: none;
 
 
     /*
-       Important for touch devices.
-
-       It tells the browser that JavaScript controls
-       the dragging gesture rather than the browser
-       interpreting it as scrolling/zooming.
+       Allow our JavaScript to control touch dragging
+       on smartphones and tablets.
     */
 
     touch-action: none;
@@ -243,13 +222,9 @@ body {
 
 
 /* =========================================================
-   PROJECT IMAGE
+   PROJECT IMAGES
 
-   The image fills the project container while maintaining
-   its original aspect ratio.
-
-   A portrait image remains portrait.
-   A landscape image remains landscape.
+   Images maintain their original aspect ratio.
    ========================================================= */
 
 .project img {
@@ -261,11 +236,8 @@ body {
 
 
     /*
-       Very important:
-
-       Browsers normally allow images themselves to be
-       dragged. We disable that because we want to drag
-       the PROJECT element instead.
+       Prevent the browser from dragging the image itself.
+       We want to drag the .project container instead.
     */
 
     pointer-events: none;
@@ -280,8 +252,6 @@ body {
 
 /* =========================================================
    PROJECT WHILE DRAGGING
-
-   Change the cursor from an open hand to a grabbing hand.
    ========================================================= */
 
 .project:active {
@@ -293,20 +263,12 @@ body {
 
 /* =========================================================
    MOBILE LAYOUT
-
-   These rules become active when the viewport is
-   600px wide or smaller.
-
-   The icons become proportionally larger because
-   smartphone screens are much smaller than desktop screens.
    ========================================================= */
 
 @media (max-width: 600px) {
 
 
-    /* -----------------------------------------
-       CENTRAL TITLE — MOBILE
-       ----------------------------------------- */
+    /* Central title */
 
     #about-link {
 
@@ -318,9 +280,7 @@ body {
     }
 
 
-    /* -----------------------------------------
-       PROJECT ICONS — MOBILE
-       ----------------------------------------- */
+    /* Project icons */
 
     .project {
 
