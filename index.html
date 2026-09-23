@@ -11,10 +11,11 @@
 
     <title>So Much Fun</title>
 
-    <!--
-        Preload the custom font so the central title
-        can appear as quickly as possible.
-    -->
+
+    <!-- ======================================================
+         CUSTOM FONT
+         ====================================================== -->
+
     <link
         rel="preload"
         href="fonts/Dark Spikes.woff2"
@@ -23,18 +24,25 @@
         crossorigin
     >
 
-    <!--
-        Increase the version number when we make major
-        CSS changes. This helps avoid browser caching.
+
+    <!-- ======================================================
+         STYLESHEET
+         ======================================================
+
+         The version number helps prevent browser caching
+         while we are developing the website.
     -->
+
     <link rel="stylesheet" href="style.css?v=7">
+
 </head>
 
 
 <body>
 
+
     <!-- ======================================================
-         CENTRAL TITLE
+         CENTRAL TITLE / ABOUT
          ====================================================== -->
 
     <a id="about-link" href="about.html">
@@ -42,48 +50,112 @@
     </a>
 
 
+
     <!-- ======================================================
          PROJECT CANVAS
          ======================================================
 
-         The project icons are NOT written here manually anymore.
+         Project icons are generated automatically by
+         script.js using the projects listed in:
 
-         script.js will read the project list from:
          /projects/projects.js
-
-         and automatically create the project icons here.
     -->
 
     <main id="canvas"></main>
 
-      >
-            &lt;
-        </button>
 
 
-        <!-- Project content -->
-        <div id="project-content"></div>
+    <!-- ======================================================
+         PROJECT OVERLAY
+         ======================================================
+
+         Hidden by default.
+
+         When a project icon is clicked, JavaScript will
+         display this window and fill it with the selected
+         project's information and images.
+
+         Navigation structure:
+
+         INFO → IMAGE 1 → IMAGE 2 → IMAGE 3 → ...
+    -->
+
+    <div
+        id="project-overlay"
+        aria-hidden="true"
+    >
+
+        <div id="project-window">
 
 
-        <!-- Next slide -->
-        <button
-            id="project-next"
-            type="button"
-            aria-label="Next slide"
-        >
-            &gt;
-        </button>
+            <!-- ==================================================
+                 CLOSE BUTTON
+                 ================================================== -->
+
+            <button
+                id="project-close"
+                type="button"
+                aria-label="Close project"
+            >
+                ×
+            </button>
+
+
+
+            <!-- ==================================================
+                 PREVIOUS SLIDE
+                 ================================================== -->
+
+            <button
+                id="project-prev"
+                type="button"
+                aria-label="Previous slide"
+            >
+                &lt;
+            </button>
+
+
+
+            <!-- ==================================================
+                 PROJECT CONTENT
+                 ==================================================
+
+                 JavaScript inserts either:
+
+                 - project information
+                 - project image
+
+                 inside this container.
+            -->
+
+            <div id="project-content"></div>
+
+
+
+            <!-- ==================================================
+                 NEXT SLIDE
+                 ================================================== -->
+
+            <button
+                id="project-next"
+                type="button"
+                aria-label="Next slide"
+            >
+                &gt;
+            </button>
+
+
+        </div>
 
     </div>
 
-</div>
 
 
     <!-- ======================================================
          JAVASCRIPT
          ======================================================
 
-         type="module" allows script.js to import our
+         type="module" allows script.js to import the
          individual project files.
     -->
 
@@ -91,6 +163,7 @@
         type="module"
         src="script.js?v=7"
     ></script>
+
 
 </body>
 
