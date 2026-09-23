@@ -4,10 +4,7 @@ let highestZ = 1;
 
 projects.forEach((project) => {
 
-    // -------------------------
-    // RANDOM STARTING POSITION
-    // -------------------------
-
+    // Random starting position
     const maxX = window.innerWidth - project.offsetWidth;
     const maxY = window.innerHeight - project.offsetHeight;
 
@@ -15,28 +12,26 @@ projects.forEach((project) => {
     project.style.top = Math.random() * maxY + "px";
 
 
-    // -------------------------
-    // DRAG
-    // -------------------------
+    let isPointerDown = false;
+    let isDragging = false;
 
-    let startX;
-    let startY;
+    let startX = 0;
+    let startY = 0;
 
-    let initialLeft;
-    let initialTop;
-
-    let dragging = false;
+    let startLeft = 0;
+    let startTop = 0;
 
 
     project.addEventListener("pointerdown", (event) => {
 
+        isPointerDown = true;
+        isDragging = false;
+
         startX = event.clientX;
         startY = event.clientY;
 
-        initialLeft = project.offsetLeft;
-        initialTop = project.offsetTop;
-
-        dragging = false;
+        startLeft = project.offsetLeft;
+        startTop = project.offsetTop;
 
         highestZ++;
         project.style.zIndex = highestZ;
@@ -47,42 +42,29 @@ projects.forEach((project) => {
 
     project.addEventListener("pointermove", (event) => {
 
-        if (!project.hasPointerCapture(event.pointerId)) return;
+        if (!isPointerDown) return;
 
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
 
-        // Prevent tiny mouse movements
-        // from being interpreted as dragging.
-
-        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
-            dragging = true;
+        // Only consider it a drag after moving 5px
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            isDragging = true;
         }
 
-        if (!dragging) return;
+        if (!isDragging) return;
 
 
-        let newX = initialLeft + dx;
-        let newY = initialTop + dy;
+        let newX = startLeft + dx;
+        let newY = startTop + dy;
 
 
-        // Keep project inside viewport.
+        // Keep icon inside screen
+        const maxX = window.innerWidth - project.offsetWidth;
+        const maxY = window.innerHeight - project.offsetHeight;
 
-        newX = Math.max(
-            0,
-            Math.min(
-                newX,
-                window.innerWidth - project.offsetWidth
-            )
-        );
-
-        newY = Math.max(
-            0,
-            Math.min(
-                newY,
-                window.innerHeight - project.offsetHeight
-            )
-        );
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
 
 
         project.style.left = newX + "px";
@@ -90,14 +72,28 @@ projects.forEach((project) => {
     });
 
 
-    project.addEventListener("click", (event) => {
+    project.addEventListener("pointerup", (event) => {
 
-        // Dragging should NOT open project.
+        isPointerDown = false;
 
-        if (dragging) {
-            event.preventDefault();
+        try {
+            project.releasePointerCapture(event.pointerId);
+        } catch (error) {
+            // Pointer may already have been released
         }
 
+    });
+
+
+    project.addEventListener("click", (event) => {
+
+        // Don't follow the link if this was a drag
+        if (isDragging) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        isDragging = false;
     });
 
 });
