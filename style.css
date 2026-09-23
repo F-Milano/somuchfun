@@ -24,9 +24,9 @@
 
 
     /* Central "SO MUCH FUN" title */
-    --title-size: 7vw;
-    --title-min-size: 40px;
-    --title-max-size: 110px;
+    --title-size: 10vw;
+    --title-min-size: 60px;
+    --title-max-size: 160px;
 
 
     /* Project icon size — mobile */
