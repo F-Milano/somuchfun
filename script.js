@@ -7,13 +7,15 @@
    SETTINGS
    ========================================================= */
 
-// Minimum distance between project images
-// and the edge of the browser window.
+/*
+   Minimum distance between a project image
+   and the edge of the browser window.
+*/
 
 const screenMargin = 30;
 
 
-// All project elements
+// Get all project elements from the HTML.
 
 const projects = document.querySelectorAll(".project");
 
@@ -29,21 +31,38 @@ let highestZ = 1;
    ========================================================= */
 
 /*
-   We wait until the entire page (including all images)
-   has loaded.
+   Wait until the entire page AND all project images
+   have finished loading.
 
-   This is important because JavaScript needs to know
-   the REAL width and height of every project image
-   before calculating its random position.
+   This allows JavaScript to know the real dimensions
+   of each image before calculating its position.
 */
 
 window.addEventListener("load", () => {
 
     projects.forEach((project) => {
 
+
+        /*
+           1. Calculate the random position while
+              the project is still invisible.
+        */
+
         positionProjectRandomly(project);
 
+
+        /*
+           2. Activate mouse/touch dragging.
+        */
+
         makeProjectDraggable(project);
+
+
+        /*
+           3. The position is now correct, so reveal it.
+        */
+
+        project.style.opacity = "1";
 
     });
 
@@ -57,23 +76,22 @@ window.addEventListener("load", () => {
 
 function positionProjectRandomly(project) {
 
+
     /*
-       Actual dimensions of this project after
-       its image has loaded.
+       Get the actual dimensions of this project
+       after its image has loaded.
     */
 
     const projectWidth = project.offsetWidth;
     const projectHeight = project.offsetHeight;
 
 
+
     /*
        Define the safe area.
 
-       The icon cannot start closer than screenMargin
-       to the left or top edge.
-
-       On the right and bottom we subtract the dimensions
-       of the icon itself, so the WHOLE icon remains visible.
+       The complete project must remain at least
+       screenMargin pixels away from every edge.
     */
 
     const minX = screenMargin;
@@ -90,8 +108,10 @@ function positionProjectRandomly(project) {
         screenMargin;
 
 
+
     /*
-       Generate a random position inside the safe area.
+       Generate a random X and Y coordinate
+       inside the safe area.
     */
 
     const randomX =
@@ -101,12 +121,14 @@ function positionProjectRandomly(project) {
         minY + Math.random() * (maxY - minY);
 
 
+
     /*
-       Apply the position.
+       Apply the calculated position.
     */
 
     project.style.left = randomX + "px";
     project.style.top = randomY + "px";
+
 }
 
 
@@ -116,6 +138,7 @@ function positionProjectRandomly(project) {
    ========================================================= */
 
 function makeProjectDraggable(project) {
+
 
     let dragging = false;
     let moved = false;
@@ -131,18 +154,29 @@ function makeProjectDraggable(project) {
 
     project.addEventListener("pointerdown", (event) => {
 
+
         dragging = true;
+
         moved = false;
 
 
+
         /*
-           Remember where inside the image the user clicked.
-           This prevents the image from jumping when dragging
-           starts.
+           Remember exactly where inside the project
+           the user clicked/touched.
+
+           This prevents the image from jumping when
+           dragging begins.
         */
 
-        offsetX = event.clientX - project.offsetLeft;
-        offsetY = event.clientY - project.offsetTop;
+        offsetX =
+            event.clientX -
+            project.offsetLeft;
+
+        offsetY =
+            event.clientY -
+            project.offsetTop;
+
 
 
         /*
@@ -154,9 +188,10 @@ function makeProjectDraggable(project) {
         project.style.zIndex = highestZ;
 
 
+
         /*
-           Continue receiving pointer events even if the
-           pointer temporarily moves outside the element.
+           Continue receiving pointer events even if
+           the pointer temporarily leaves the element.
         */
 
         project.setPointerCapture(event.pointerId);
@@ -174,26 +209,33 @@ function makeProjectDraggable(project) {
 
     project.addEventListener("pointermove", (event) => {
 
+
         if (!dragging) return;
 
 
         moved = true;
 
 
+
         /*
-           Proposed new position.
+           Calculate proposed new position.
         */
 
-        let x = event.clientX - offsetX;
-        let y = event.clientY - offsetY;
+        let x =
+            event.clientX -
+            offsetX;
+
+        let y =
+            event.clientY -
+            offsetY;
 
 
 
         /*
-           Calculate the safe area again.
+           Recalculate the safe area.
 
-           We do this during dragging because the browser
-           window may have changed size since the page loaded.
+           This uses the current browser dimensions,
+           so it remains correct if the viewport changes.
         */
 
         const minX = screenMargin;
@@ -214,7 +256,8 @@ function makeProjectDraggable(project) {
         /*
            Clamp the position.
 
-           The project cannot move outside these boundaries.
+           This prevents the project from being dragged
+           outside the safe area.
         */
 
         x = Math.max(
@@ -230,7 +273,7 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Apply position.
+           Apply the new position.
         */
 
         project.style.left = x + "px";
@@ -270,12 +313,13 @@ function makeProjectDraggable(project) {
 
     project.addEventListener("click", (event) => {
 
+
         /*
-           If the pointer moved, interpret the interaction
+           If the pointer moved, interpret the action
            as dragging rather than clicking.
 
-           This prevents opening a project accidentally
-           after moving it.
+           This prevents the project page from opening
+           after moving an icon.
         */
 
         if (moved) {
@@ -295,11 +339,13 @@ function makeProjectDraggable(project) {
    ========================================================= */
 
 /*
-   If the browser becomes smaller after the page has loaded,
-   check every project and move it back inside the safe area
-   if necessary.
+   If the browser window becomes smaller,
+   check every project.
 
-   We DON'T randomize the positions again.
+   Any project that would now be outside the safe area
+   is automatically moved back inside.
+
+   Existing positions are otherwise preserved.
 */
 
 window.addEventListener("resize", () => {
@@ -320,6 +366,11 @@ window.addEventListener("resize", () => {
 
 function keepProjectInsideScreen(project) {
 
+
+    /*
+       Calculate current safe-area boundaries.
+    */
+
     const minX = screenMargin;
     const minY = screenMargin;
 
@@ -334,12 +385,18 @@ function keepProjectInsideScreen(project) {
         screenMargin;
 
 
+
+    /*
+       Read current position.
+    */
+
     let x = project.offsetLeft;
     let y = project.offsetTop;
 
 
+
     /*
-       Correct the position only when necessary.
+       Correct X only if it is outside the safe area.
     */
 
     x = Math.max(
@@ -347,11 +404,22 @@ function keepProjectInsideScreen(project) {
         Math.min(x, maxX)
     );
 
+
+
+    /*
+       Correct Y only if it is outside the safe area.
+    */
+
     y = Math.max(
         minY,
         Math.min(y, maxY)
     );
 
+
+
+    /*
+       Apply corrected position.
+    */
 
     project.style.left = x + "px";
     project.style.top = y + "px";
