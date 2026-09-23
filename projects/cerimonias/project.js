@@ -15,7 +15,7 @@ export default {
         Project credits.
     `,
 
-    color: "#711FFF",
+    color: "#FFFFFF",
     textColor: "#FF3224",
 
     images: []
