@@ -15,7 +15,7 @@
 const screenMargin = 30;
 
 
-// Get all project elements from the HTML.
+// Get all project elements.
 
 const projects = document.querySelectorAll(".project");
 
@@ -31,42 +31,82 @@ let highestZ = 1;
    ========================================================= */
 
 /*
-   Wait until the entire page AND all project images
-   have finished loading.
+   IMPORTANT:
 
-   This allows JavaScript to know the real dimensions
-   of each image before calculating its position.
+   We do NOT wait for the entire page to load anymore.
+
+   Instead, every project is initialized independently
+   as soon as its own image is ready.
+
+   This means that one slow-loading image does not prevent
+   all the other projects from appearing.
 */
 
-window.addEventListener("load", () => {
+projects.forEach((project) => {
 
-    projects.forEach((project) => {
-
-
-        /*
-           1. Calculate the random position while
-              the project is still invisible.
-        */
-
-        positionProjectRandomly(project);
+    const image = project.querySelector("img");
 
 
-        /*
-           2. Activate mouse/touch dragging.
-        */
+    /*
+       If the image is already cached / loaded,
+       initialize the project immediately.
+    */
 
-        makeProjectDraggable(project);
+    if (image.complete && image.naturalWidth > 0) {
+
+        initializeProject(project);
+
+    }
 
 
-        /*
-           3. The position is now correct, so reveal it.
-        */
+    /*
+       Otherwise wait only for THIS image.
+    */
 
-        project.style.opacity = "1";
+    else {
 
-    });
+        image.addEventListener(
+            "load",
+            () => initializeProject(project),
+            { once: true }
+        );
+
+    }
 
 });
+
+
+
+/* =========================================================
+   INITIALIZE ONE PROJECT
+   ========================================================= */
+
+function initializeProject(project) {
+
+
+    /*
+       First calculate its random position while
+       it is still invisible.
+    */
+
+    positionProjectRandomly(project);
+
+
+    /*
+       Activate mouse / touch dragging.
+    */
+
+    makeProjectDraggable(project);
+
+
+    /*
+       The project is now correctly positioned,
+       so make it visible.
+    */
+
+    project.style.opacity = "1";
+
+}
 
 
 
@@ -78,7 +118,7 @@ function positionProjectRandomly(project) {
 
 
     /*
-       Get the actual dimensions of this project
+       Get the real dimensions of the project
        after its image has loaded.
     */
 
@@ -90,8 +130,7 @@ function positionProjectRandomly(project) {
     /*
        Define the safe area.
 
-       The complete project must remain at least
-       screenMargin pixels away from every edge.
+       screenMargin is applied to all four sides.
     */
 
     const minX = screenMargin;
@@ -110,8 +149,8 @@ function positionProjectRandomly(project) {
 
 
     /*
-       Generate a random X and Y coordinate
-       inside the safe area.
+       Generate random coordinates inside
+       the safe area.
     */
 
     const randomX =
@@ -123,7 +162,7 @@ function positionProjectRandomly(project) {
 
 
     /*
-       Apply the calculated position.
+       Apply position.
     */
 
     project.style.left = randomX + "px";
@@ -162,11 +201,8 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Remember exactly where inside the project
-           the user clicked/touched.
-
-           This prevents the image from jumping when
-           dragging begins.
+           Remember where inside the project
+           the click/touch happened.
         */
 
         offsetX =
@@ -191,7 +227,7 @@ function makeProjectDraggable(project) {
 
         /*
            Continue receiving pointer events even if
-           the pointer temporarily leaves the element.
+           the pointer moves outside the image.
         */
 
         project.setPointerCapture(event.pointerId);
@@ -218,7 +254,7 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Calculate proposed new position.
+           Proposed new position.
         */
 
         let x =
@@ -232,10 +268,7 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Recalculate the safe area.
-
-           This uses the current browser dimensions,
-           so it remains correct if the viewport changes.
+           Calculate the current safe area.
         */
 
         const minX = screenMargin;
@@ -254,10 +287,8 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Clamp the position.
-
-           This prevents the project from being dragged
-           outside the safe area.
+           Keep the COMPLETE project inside
+           the safe area.
         */
 
         x = Math.max(
@@ -273,7 +304,7 @@ function makeProjectDraggable(project) {
 
 
         /*
-           Apply the new position.
+           Apply position.
         */
 
         project.style.left = x + "px";
@@ -315,11 +346,8 @@ function makeProjectDraggable(project) {
 
 
         /*
-           If the pointer moved, interpret the action
-           as dragging rather than clicking.
-
-           This prevents the project page from opening
-           after moving an icon.
+           If the project moved, interpret the interaction
+           as a drag rather than a click.
         */
 
         if (moved) {
@@ -339,20 +367,27 @@ function makeProjectDraggable(project) {
    ========================================================= */
 
 /*
-   If the browser window becomes smaller,
-   check every project.
+   If the browser window changes size, make sure
+   every project remains inside the safe area.
 
-   Any project that would now be outside the safe area
-   is automatically moved back inside.
-
-   Existing positions are otherwise preserved.
+   We do NOT randomize the positions again.
 */
 
 window.addEventListener("resize", () => {
 
     projects.forEach((project) => {
 
-        keepProjectInsideScreen(project);
+
+        /*
+           Only correct projects that have already
+           been initialized.
+        */
+
+        if (project.style.opacity === "1") {
+
+            keepProjectInsideScreen(project);
+
+        }
 
     });
 
@@ -368,7 +403,7 @@ function keepProjectInsideScreen(project) {
 
 
     /*
-       Calculate current safe-area boundaries.
+       Calculate current boundaries.
     */
 
     const minX = screenMargin;
@@ -396,19 +431,13 @@ function keepProjectInsideScreen(project) {
 
 
     /*
-       Correct X only if it is outside the safe area.
+       Clamp X and Y to the safe area.
     */
 
     x = Math.max(
         minX,
         Math.min(x, maxX)
     );
-
-
-
-    /*
-       Correct Y only if it is outside the safe area.
-    */
 
     y = Math.max(
         minY,
