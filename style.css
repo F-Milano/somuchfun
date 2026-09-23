@@ -5,16 +5,13 @@
 
 /* =========================================================
    DESIGN VARIABLES
-
-   Main visual parameters of the website.
-   Change these values to adjust the design.
    ========================================================= */
 
 :root {
 
-    /* Page colours */
+    /* Homepage colours */
     --background-color: #FF3224;
-    --text-color: #F8BDFF;
+    --text-color: #BF75FF;
 
 
     /* Project icon size — desktop */
@@ -23,7 +20,7 @@
     --project-max-width: 260px;
 
 
-    /* Central "SO MUCH FUN" title — desktop */
+    /* Central title — desktop */
     --title-size: 10vw;
     --title-min-size: 60px;
     --title-max-size: 160px;
@@ -35,7 +32,7 @@
     --mobile-project-max-width: 180px;
 
 
-    /* Central "SO MUCH FUN" title — mobile */
+    /* Central title — mobile */
     --mobile-title-size: 16vw;
     --mobile-title-min-size: 45px;
     --mobile-title-max-size: 90px;
@@ -45,12 +42,6 @@
 
 /* =========================================================
    CUSTOM FONT
-
-   WOFF2 is optimized for websites and should load
-   considerably faster than the previous OTF file.
-
-   "block" prevents the browser from first displaying
-   the title using a fallback font.
    ========================================================= */
 
 @font-face {
@@ -84,6 +75,11 @@ body {
 
     width: 100%;
     height: 100%;
+}
+
+
+button {
+    font: inherit;
 }
 
 
@@ -160,15 +156,6 @@ body {
 
 /* =========================================================
    PROJECT ICON CONTAINER
-
-   Projects initially remain invisible.
-
-   JavaScript reveals EACH project individually as soon
-   as that project's own image has finished loading.
-
-   This prevents:
-   1. images appearing in the wrong position first
-   2. one slow image delaying every other project
    ========================================================= */
 
 .project {
@@ -186,34 +173,22 @@ body {
 
 
     /*
-       Hidden initially.
-
-       JavaScript changes this to opacity: 1 after
-       calculating the correct random position.
+       Hidden until JavaScript has calculated
+       the initial random position.
     */
 
     opacity: 0;
 
 
-    /* Mouse cursor */
-
     cursor: grab;
 
-
-    /* Prevent selection while dragging */
 
     user-select: none;
     -webkit-user-select: none;
 
 
-    /*
-       JavaScript controls touch interaction.
-    */
-
     touch-action: none;
 
-
-    /* Remove normal link styling */
 
     text-decoration: none;
 }
@@ -231,11 +206,6 @@ body {
     width: 100%;
     height: auto;
 
-
-    /*
-       Prevent the browser from dragging the image itself.
-       We drag the .project container instead.
-    */
 
     pointer-events: none;
 
@@ -259,13 +229,308 @@ body {
 
 
 /* =========================================================
+   PROJECT OVERLAY
+   =========================================================
+
+   This layer covers the viewport but remains transparent,
+   so the homepage is still visible around the project window.
+
+   JavaScript will add the class:
+
+       .is-open
+
+   when a project is opened.
+   ========================================================= */
+
+#project-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+
+    /*
+       Hidden by default.
+    */
+
+    display: none;
+
+
+    /*
+       Center the project window.
+    */
+
+    align-items: center;
+    justify-content: center;
+
+
+    /*
+       A transparent overlay means the homepage remains
+       visible around the project window.
+    */
+
+    background: transparent;
+}
+
+
+
+/* =========================================================
+   OPEN OVERLAY
+   ========================================================= */
+
+#project-overlay.is-open {
+
+    display: flex;
+}
+
+
+
+/* =========================================================
+   PROJECT WINDOW
+   ========================================================= */
+
+#project-window {
+
+    position: relative;
+
+
+    /*
+       Desktop dimensions.
+
+       The window deliberately does not fill the whole screen,
+       allowing the homepage composition to remain visible.
+    */
+
+    width: 78vw;
+    height: 78vh;
+
+    max-width: 1200px;
+    max-height: 850px;
+
+
+    /*
+       Temporary/default project colours.
+
+       JavaScript will later replace these with the colours
+       specified inside each project's project.js file.
+    */
+
+    background-color: #711FFF;
+    color: #FF3224;
+
+
+    /*
+       Keep content inside the rectangle.
+    */
+
+    overflow: hidden;
+}
+
+
+
+/* =========================================================
+   PROJECT CONTENT
+   ========================================================= */
+
+#project-content {
+
+    position: absolute;
+
+    inset: 0;
+
+
+    /*
+       Space around text/images.
+
+       Extra horizontal room is left for the navigation
+       arrows.
+    */
+
+    padding:
+
+        clamp(50px, 7vh, 90px)
+
+        clamp(70px, 8vw, 130px);
+
+
+    overflow: auto;
+}
+
+
+
+/* =========================================================
+   PROJECT INFORMATION
+   ========================================================= */
+
+.project-info {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: auto;
+}
+
+
+.project-info h1 {
+
+    margin: 0 0 30px 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: clamp(32px, 5vw, 72px);
+
+    font-weight: normal;
+
+    line-height: 0.95;
+}
+
+
+.project-info p {
+
+    max-width: 750px;
+
+    margin: 0 0 20px 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: clamp(16px, 1.4vw, 22px);
+
+    line-height: 1.35;
+}
+
+
+
+/* =========================================================
+   PROJECT SLIDESHOW IMAGE
+   ========================================================= */
+
+.project-slide-image {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-user-drag: none;
+}
+
+
+
+/* =========================================================
+   OVERLAY BUTTONS — GENERAL
+   ========================================================= */
+
+#project-close,
+#project-prev,
+#project-next {
+
+    position: absolute;
+
+    z-index: 10;
+
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: inherit;
+
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-weight: normal;
+
+    line-height: 1;
+
+
+    cursor: pointer;
+
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+#project-close {
+
+    top: 20px;
+    right: 25px;
+
+    font-size: 42px;
+}
+
+
+
+/* =========================================================
+   PREVIOUS ARROW
+   ========================================================= */
+
+#project-prev {
+
+    left: 25px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 50px;
+}
+
+
+
+/* =========================================================
+   NEXT ARROW
+   ========================================================= */
+
+#project-next {
+
+    right: 25px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 50px;
+}
+
+
+
+/* =========================================================
+   DISABLED NAVIGATION BUTTON
+   ========================================================= */
+
+#project-prev:disabled,
+#project-next:disabled {
+
+    opacity: 0.2;
+
+    cursor: default;
+}
+
+
+
+/* =========================================================
    MOBILE
    ========================================================= */
 
 @media (max-width: 600px) {
 
 
-    /* Central title */
+    /* -----------------------------------------------------
+       Homepage title
+       ----------------------------------------------------- */
 
     #about-link {
 
@@ -277,7 +542,9 @@ body {
     }
 
 
-    /* Project icons */
+    /* -----------------------------------------------------
+       Homepage project icons
+       ----------------------------------------------------- */
 
     .project {
 
@@ -286,6 +553,90 @@ body {
             var(--mobile-project-width),
             var(--mobile-project-max-width)
         );
+    }
+
+
+    /* -----------------------------------------------------
+       Project window
+
+       Almost fullscreen, but with a small border around it
+       so the homepage remains visible.
+       ----------------------------------------------------- */
+
+    #project-window {
+
+        width: calc(100vw - 20px);
+        height: calc(100vh - 20px);
+
+        max-width: none;
+        max-height: none;
+    }
+
+
+    /* -----------------------------------------------------
+       Project content
+       ----------------------------------------------------- */
+
+    #project-content {
+
+        padding:
+            65px
+            45px
+            50px
+            45px;
+    }
+
+
+    /* -----------------------------------------------------
+       Close button
+       ----------------------------------------------------- */
+
+    #project-close {
+
+        top: 15px;
+        right: 18px;
+
+        font-size: 36px;
+    }
+
+
+    /* -----------------------------------------------------
+       Navigation arrows
+       ----------------------------------------------------- */
+
+    #project-prev {
+
+        left: 12px;
+
+        font-size: 40px;
+    }
+
+
+    #project-next {
+
+        right: 12px;
+
+        font-size: 40px;
+    }
+
+
+    /* -----------------------------------------------------
+       Information typography
+       ----------------------------------------------------- */
+
+    .project-info h1 {
+
+        font-size: 38px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .project-info p {
+
+        font-size: 16px;
+
+        line-height: 1.35;
     }
 
 }
