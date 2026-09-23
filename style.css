@@ -6,15 +6,15 @@
 /* =========================================================
    DESIGN VARIABLES
 
-   Change these values to adjust the general appearance
-   of the website.
+   Main visual parameters of the website.
+   Change these values to adjust the design.
    ========================================================= */
 
 :root {
 
     /* Page colours */
-    --background-color: #FF42DA;
-    --text-color: #000000;
+    --background-color: #FF5E1F;
+    --text-color: #711FFF;
 
 
     /* Project icon size — desktop */
@@ -24,9 +24,9 @@
 
 
     /* Central "SO MUCH FUN" title — desktop */
-    --title-size: 12vw;
-    --title-min-size: 80px;
-    --title-max-size: 200px;
+    --title-size: 10vw;
+    --title-min-size: 60px;
+    --title-max-size: 160px;
 
 
     /* Project icon size — mobile */
@@ -45,16 +45,24 @@
 
 /* =========================================================
    CUSTOM FONT
+
+   WOFF2 is optimized for websites and should load
+   considerably faster than the previous OTF file.
+
+   "block" prevents the browser from first displaying
+   the title using a fallback font.
    ========================================================= */
 
 @font-face {
 
     font-family: "Dark Spikes";
 
-    src: url("fonts/Dark Spikes.otf") format("opentype");
+    src: url("fonts/Dark Spikes.woff2") format("woff2");
 
     font-weight: normal;
     font-style: normal;
+
+    font-display: block;
 }
 
 
@@ -95,8 +103,6 @@ body {
 
 /* =========================================================
    CENTRAL TITLE / ABOUT LINK
-
-   The title remains exactly in the centre of the viewport.
    ========================================================= */
 
 #about-link {
@@ -126,11 +132,10 @@ body {
     white-space: nowrap;
 
 
-    /*
-       Keep the title above the project images.
-    */
+    /* Keep title above project images */
 
     z-index: 1000;
+
 
     cursor: pointer;
 }
@@ -155,6 +160,15 @@ body {
 
 /* =========================================================
    PROJECT ICON CONTAINER
+
+   Projects initially remain invisible.
+
+   JavaScript reveals EACH project individually as soon
+   as that project's own image has finished loading.
+
+   This prevents:
+   1. images appearing in the wrong position first
+   2. one slow image delaying every other project
    ========================================================= */
 
 .project {
@@ -172,27 +186,13 @@ body {
 
 
     /*
-       Initially hide every project.
+       Hidden initially.
 
-       JavaScript will first calculate its correct random
-       position and then make it visible.
-
-       This prevents the icons from briefly appearing
-       in the wrong position when the page loads.
+       JavaScript changes this to opacity: 1 after
+       calculating the correct random position.
     */
 
     opacity: 0;
-
-
-    /*
-       Very short fade-in after positioning.
-
-       We transition ONLY opacity.
-       Do not use "transition: all", because that would
-       interfere with dragging.
-    */
-
-    transition: opacity 0.15s ease;
 
 
     /* Mouse cursor */
@@ -200,15 +200,14 @@ body {
     cursor: grab;
 
 
-    /* Prevent text/image selection while dragging */
+    /* Prevent selection while dragging */
 
     user-select: none;
     -webkit-user-select: none;
 
 
     /*
-       Allow our JavaScript to control touch dragging
-       on smartphones and tablets.
+       JavaScript controls touch interaction.
     */
 
     touch-action: none;
@@ -223,8 +222,6 @@ body {
 
 /* =========================================================
    PROJECT IMAGES
-
-   Images maintain their original aspect ratio.
    ========================================================= */
 
 .project img {
@@ -237,7 +234,7 @@ body {
 
     /*
        Prevent the browser from dragging the image itself.
-       We want to drag the .project container instead.
+       We drag the .project container instead.
     */
 
     pointer-events: none;
@@ -262,7 +259,7 @@ body {
 
 
 /* =========================================================
-   MOBILE LAYOUT
+   MOBILE
    ========================================================= */
 
 @media (max-width: 600px) {
