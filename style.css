@@ -14,7 +14,7 @@
 
     /* Page colours */
     --background-color: #FF42DA;
-    --text-color: #FFFFFF;
+    --text-color: #000000;
 
 
     /* Project icon size — desktop */
@@ -26,7 +26,7 @@
     /* Central "SO MUCH FUN" title — desktop */
     --title-size: 12vw;
     --title-min-size: 80px;
-    --title-max-size: 160px;
+    --title-max-size: 200px;
 
 
     /* Project icon size — mobile */
