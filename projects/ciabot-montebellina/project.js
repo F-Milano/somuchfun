@@ -5,18 +5,21 @@ export default {
     icon: "projects/ciabot-montebellina/icon.webp",
 
     description: `
-        Project description.
+        Single family house in Alba, Italy.
     `,
 
-    year: "",
-    location: "",
+    year: "2026",
+    location: "Alba, Italy",
 
     credits: `
-        Project credits.
+        Francesco Milano
     `,
 
     color: "#FFFFFF",
     textColor: "#FF3224",
 
-    images: []
+    images: [
+        "20260723_130305.jpg", 
+        "20260723_125705.jpg"
+    ]
 };
