@@ -20,6 +20,7 @@ export default {
 
     images: [
         "projects/ciabot-montebellina/images/20260723_130305.jpg",
+        "projects/ciabot-montebellina/images/20260723_125705.jpg",
         "projects/ciabot-montebellina/images/20260723_125705.jpg"
     ]
 };
