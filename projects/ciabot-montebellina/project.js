@@ -19,7 +19,7 @@ export default {
     textColor: "#FF3224",
 
     images: [
-        "20260723_130305.jpg", 
-        "20260723_125705.jpg"
+        "projects/ciabot-montebellina/images/20260723_130305.jpg",
+        "projects/ciabot-montebellina/images/20260723_125705.jpg"
     ]
 };
