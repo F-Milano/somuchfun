@@ -424,6 +424,64 @@ body {
 
 
 
+/* Image-only geometry: the window wraps the fitted image plus a constant
+   project-coloured frame. The original info rules remain untouched. */
+#project-window.is-image-slide {
+    --image-frame: 30px;
+    width: calc(var(--image-width, 120px) + 2 * var(--image-frame));
+    height: calc(var(--image-height, 80px) + 2 * var(--image-frame));
+    max-width: 90vw;
+    max-height: 90vh;
+    max-height: 90dvh;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+#project-window.is-image-slide #project-content {
+    inset: var(--image-frame);
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Centre the glyphs in the frame. Transparent 44px touch targets can
+   extend beyond the thin frame without covering the image with colour. */
+#project-window.is-image-slide button {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+}
+
+#project-window.is-image-slide #project-close {
+    top: calc(var(--image-frame) / 2);
+    right: calc(var(--image-frame) / 2);
+    transform: translate(50%, -50%);
+}
+
+#project-window.is-image-slide #project-prev {
+    left: calc(var(--image-frame) / 2);
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#project-window.is-image-slide #project-next {
+    right: calc(var(--image-frame) / 2);
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+@media (max-width: 600px) {
+    #project-window.is-image-slide {
+        --image-frame: 15px;
+    }
+
+    #project-window.is-image-slide button {
+        font-size: 16px;
+    }
+}
+
+
 /* =========================================================
    OVERLAY BUTTONS — GENERAL
    ========================================================= */
