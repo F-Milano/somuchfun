@@ -318,7 +318,7 @@ body {
        specified inside each project's project.js file.
     */
 
-    background-color: #711FFF;
+    background-color: var(--project-background, #711FFF);
     color: #FF3224;
 
 
@@ -420,6 +420,55 @@ body {
     -webkit-user-select: none;
 
     -webkit-user-drag: none;
+}
+
+
+/* Image slides fit the natural ratio into a 90% viewport bounding box.
+   The more specific selectors also override the mobile info layout.
+   Dynamic viewport height follows the browser toolbar on mobile. */
+#project-window.is-image-slide {
+    width: min(90vw, calc(90vh * var(--image-ratio, 1)));
+    width: min(90vw, calc(90dvh * var(--image-ratio, 1)));
+    height: auto;
+    aspect-ratio: var(--image-ratio, 1);
+    max-width: none;
+    max-height: none;
+    background-color: transparent;
+    overflow: visible;
+}
+
+#project-window.is-image-slide #project-content {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Keep controls independent of image proportions, with solid project
+   colours for legibility and touch targets of at least 44px. */
+#project-window.is-image-slide button {
+    position: fixed;
+    width: 44px;
+    height: 44px;
+    background-color: var(--project-background, #711FFF);
+    font-size: 36px;
+}
+
+#project-window.is-image-slide #project-close {
+    top: 10px;
+    right: 10px;
+}
+
+#project-window.is-image-slide #project-prev {
+    top: 50%;
+    left: 10px;
+}
+
+#project-window.is-image-slide #project-next {
+    top: 50%;
+    right: 10px;
+}
+
+#project-window.is-image-slide button:disabled {
+    opacity: 0.6;
 }
 
 

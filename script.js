@@ -348,8 +348,10 @@ function openProject(project) {
         project.js file.
     */
 
-    projectWindow.style.backgroundColor =
-        project.color || "#711FFF";
+    projectWindow.style.setProperty(
+        "--project-background",
+        project.color || "#711FFF"
+    );
 
     projectWindow.style.color =
         project.textColor || "#FF3224";
@@ -396,6 +398,10 @@ function closeProject() {
 function renderSlide() {
 
     if (!activeProject) return;
+
+    // Image sizing is isolated from the original information layout.
+    projectWindow.classList.toggle("is-image-slide", currentSlide > 0);
+    projectWindow.style.removeProperty("--image-ratio");
 
 
     /*
@@ -538,8 +544,6 @@ function renderProjectImage() {
         document.createElement("img");
 
 
-    image.src = imagePath;
-
     image.alt =
         `${activeProject.title} — image ${currentSlide}`;
 
@@ -549,8 +553,23 @@ function renderProjectImage() {
 
     image.draggable = false;
 
+    // Wait for natural dimensions, including images already in the cache.
+    // Ignore late loads after navigating away or closing the project.
+    const applyImageRatio = () => {
+        if (image.parentNode !== projectContent || !image.naturalWidth) return;
+
+        projectWindow.style.setProperty(
+            "--image-ratio",
+            image.naturalWidth / image.naturalHeight
+        );
+    };
+
+    image.addEventListener("load", applyImageRatio, { once: true });
 
     projectContent.appendChild(image);
+    image.src = imagePath;
+
+    if (image.complete) applyImageRatio();
 }
 
 
