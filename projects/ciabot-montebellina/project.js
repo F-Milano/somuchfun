@@ -5,7 +5,9 @@ export default {
     icon: "projects/ciabot-montebellina/icon.webp",
 
     description: `
-        Single family house in Alba, Italy.
+        A single-family retreat nestled among the rolling vineyards of Alba, Italy.
+        Warm brick, natural timber, and generous openings reinterpret the quiet character of rural Piedmont.
+        Living spaces unfold around a sheltered courtyard, framing the landscape and welcoming the changing light.
     `,
 
     year: "2026",
