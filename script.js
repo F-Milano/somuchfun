@@ -31,18 +31,11 @@ const projectWindow = document.querySelector("#project-window");
 const projectContent = document.querySelector("#project-content");
 
 const projectClose = document.querySelector("#project-close");
-const projectPrev = document.querySelector("#project-prev");
-const projectNext = document.querySelector("#project-next");
 
 
 // Currently open project
 let activeProject = null;
 
-// Slide 0 = project information
-// Slide 1 = first image
-// Slide 2 = second image
-// etc.
-let currentSlide = 0;
 
 
 // ============================================================
@@ -340,7 +333,6 @@ function activateDragging(projectElement) {
 function openProject(project) {
 
     activeProject = project;
-    currentSlide = 0;
 
 
     /*
@@ -364,7 +356,9 @@ function openProject(project) {
     );
 
 
-    renderSlide();
+    renderProjectPage();
+    // Reset after showing and rendering, including when reopening the same project.
+    projectContent.scrollTop = 0;
 }
 
 
@@ -385,278 +379,61 @@ function closeProject() {
     projectContent.innerHTML = "";
 
     activeProject = null;
-    currentSlide = 0;
 }
 
 
 // ============================================================
-// RENDER CURRENT SLIDE
+// SCROLL EXPERIMENT: render existing project data without changing its schema.
 // ============================================================
 
-function renderSlide() {
-
-    if (!activeProject) return;
-
-    // Only image slides use the fitted frame; info keeps its original CSS.
-    projectWindow.classList.toggle("is-image-slide", currentSlide > 0);
-
-
-    /*
-        Slide 0 is always the project information.
-
-        Slides 1, 2, 3... correspond to entries in
-        activeProject.images.
-    */
-
-    if (currentSlide === 0) {
-
-        renderProjectInfo();
-
-    } else {
-
-        renderProjectImage();
-    }
-
-
-    updateNavigation();
-}
-
-
-// ============================================================
-// RENDER PROJECT INFORMATION
-// ============================================================
-
-function renderProjectInfo() {
+function renderProjectPage() {
 
     projectContent.innerHTML = "";
 
-
-    const info = document.createElement("div");
-
+    const info = document.createElement("article");
     info.classList.add("project-info");
 
-
-    // --------------------------------------------------------
-    // TITLE
-    // --------------------------------------------------------
-
     const title = document.createElement("h1");
-
     title.textContent = activeProject.title;
-
     info.appendChild(title);
 
-
-    // --------------------------------------------------------
-    // DESCRIPTION
-    // --------------------------------------------------------
-
-    if (activeProject.description.trim()) {
-
-        const description = document.createElement("p");
-
-        description.textContent =
-            activeProject.description.trim();
-
-        info.appendChild(description);
+    function appendText(value) {
+        if (!value?.trim()) return;
+        const paragraph = document.createElement("p");
+        paragraph.textContent = value.trim();
+        info.appendChild(paragraph);
     }
 
+    if (activeProject.year) appendText(`Year: ${activeProject.year}`);
+    if (activeProject.location) appendText(`Location: ${activeProject.location}`);
+    appendText(activeProject.description);
 
-    // --------------------------------------------------------
-    // YEAR
-    // --------------------------------------------------------
+    // Existing string paths remain supported; optional image objects can carry captions.
+    (activeProject.images || []).forEach((entry, index) => {
+        const imagePath = typeof entry === "string" ? entry : entry.src;
+        if (!imagePath) return;
 
-    if (activeProject.year) {
+        const figure = document.createElement("figure");
+        figure.classList.add("project-figure");
 
-        const year = document.createElement("p");
+        const image = document.createElement("img");
+        image.src = imagePath;
+        image.alt = entry.alt || `${activeProject.title} - image ${index + 1}`;
+        image.classList.add("project-page-image");
+        image.draggable = false;
+        figure.appendChild(image);
 
-        year.textContent =
-            `Year: ${activeProject.year}`;
+        if (entry.caption) {
+            const caption = document.createElement("figcaption");
+            caption.textContent = entry.caption;
+            figure.appendChild(caption);
+        }
 
-        info.appendChild(year);
-    }
+        info.appendChild(figure);
+    });
 
-
-    // --------------------------------------------------------
-    // LOCATION
-    // --------------------------------------------------------
-
-    if (activeProject.location) {
-
-        const location = document.createElement("p");
-
-        location.textContent =
-            `Location: ${activeProject.location}`;
-
-        info.appendChild(location);
-    }
-
-
-    // --------------------------------------------------------
-    // CREDITS
-    // --------------------------------------------------------
-
-    if (activeProject.credits.trim()) {
-
-        const credits = document.createElement("p");
-
-        credits.textContent =
-            activeProject.credits.trim();
-
-        info.appendChild(credits);
-    }
-
-
+    appendText(activeProject.credits);
     projectContent.appendChild(info);
-}
-
-
-// ============================================================
-// RENDER PROJECT IMAGE
-// ============================================================
-
-function renderProjectImage() {
-
-    projectContent.innerHTML = "";
-
-
-    /*
-        currentSlide 1 = images[0]
-        currentSlide 2 = images[1]
-        etc.
-    */
-
-    const imageIndex =
-        currentSlide - 1;
-
-
-    const imagePath =
-        activeProject.images[imageIndex];
-
-
-    if (!imagePath) return;
-
-
-    const image =
-        document.createElement("img");
-
-
-    image.alt =
-        `${activeProject.title} — image ${currentSlide}`;
-
-    image.classList.add(
-        "project-slide-image"
-    );
-
-    image.draggable = false;
-
-    // A late load from a previous slide must not resize the current window.
-    image.addEventListener("load", () => {
-        if (image.parentNode === projectContent) resizeImageFrame();
-    }, { once: true });
-
-    projectContent.appendChild(image);
-    image.src = imagePath;
-    resizeImageFrame(); // Also handles images already in the browser cache.
-}
-
-
-// Fit the image and both frame edges inside 90% of the visible viewport.
-// One shared scale preserves natural proportions without cropping/stretching.
-function resizeImageFrame() {
-    if (!activeProject || currentSlide === 0) return;
-
-    const image = projectContent.querySelector(".project-slide-image");
-    if (!image || !image.naturalWidth || !image.naturalHeight) return;
-
-    const frame = parseFloat(
-        getComputedStyle(projectWindow).getPropertyValue("--image-frame")
-    );
-    const viewport = window.visualViewport;
-    const availableWidth = Math.max(1, (viewport?.width ?? window.innerWidth) * 0.9 - frame * 2);
-    const availableHeight = Math.max(1, (viewport?.height ?? window.innerHeight) * 0.9 - frame * 2);
-    const scale = Math.min(
-        availableWidth / image.naturalWidth,
-        availableHeight / image.naturalHeight
-    );
-
-    projectWindow.style.setProperty("--image-width", `${image.naturalWidth * scale}px`);
-    projectWindow.style.setProperty("--image-height", `${image.naturalHeight * scale}px`);
-}
-
-// Keep fitting on rotation, resizing, and mobile browser toolbar changes.
-// This is independent of the existing homepage resize handler.
-window.addEventListener("resize", resizeImageFrame);
-window.visualViewport?.addEventListener("resize", resizeImageFrame);
-
-
-// ============================================================
-// UPDATE NAVIGATION BUTTONS
-// ============================================================
-
-function updateNavigation() {
-
-    if (!activeProject) return;
-
-
-    /*
-        Previous is disabled on INFO.
-    */
-
-    projectPrev.disabled =
-        currentSlide === 0;
-
-
-    /*
-        Total number of slides is:
-
-        INFO + number of images.
-
-        Because INFO is slide 0, the highest valid
-        currentSlide value equals images.length.
-    */
-
-    projectNext.disabled =
-        currentSlide >= activeProject.images.length;
-}
-
-
-// ============================================================
-// PREVIOUS SLIDE
-// ============================================================
-
-function previousSlide() {
-
-    if (!activeProject) return;
-
-    if (currentSlide <= 0) return;
-
-
-    currentSlide -= 1;
-
-    renderSlide();
-}
-
-
-// ============================================================
-// NEXT SLIDE
-// ============================================================
-
-function nextSlide() {
-
-    if (!activeProject) return;
-
-    if (
-        currentSlide >=
-        activeProject.images.length
-    ) {
-        return;
-    }
-
-
-    currentSlide += 1;
-
-    renderSlide();
 }
 
 
@@ -670,16 +447,6 @@ projectClose.addEventListener(
 );
 
 
-projectPrev.addEventListener(
-    "click",
-    previousSlide
-);
-
-
-projectNext.addEventListener(
-    "click",
-    nextSlide
-);
 
 
 // ============================================================
@@ -699,18 +466,6 @@ document.addEventListener("keydown", (event) => {
     }
 
 
-    if (event.key === "ArrowLeft") {
-
-        previousSlide();
-
-        return;
-    }
-
-
-    if (event.key === "ArrowRight") {
-
-        nextSlide();
-    }
 });
 
 

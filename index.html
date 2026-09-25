@@ -33,7 +33,7 @@
          while we are developing the website.
     -->
 
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 
 </head>
 
@@ -76,9 +76,7 @@
          display this window and fill it with the selected
          project's information and images.
 
-         Navigation structure:
-
-         INFO → IMAGE 1 → IMAGE 2 → IMAGE 3 → ...
+         One continuous project page scrolls inside the fixed window.
     -->
 
     <div
@@ -103,17 +101,6 @@
 
 
 
-            <!-- ==================================================
-                 PREVIOUS SLIDE
-                 ================================================== -->
-
-            <button
-                id="project-prev"
-                type="button"
-                aria-label="Previous slide"
-            >
-                &lt;
-            </button>
 
 
 
@@ -121,29 +108,13 @@
                  PROJECT CONTENT
                  ==================================================
 
-                 JavaScript inserts either:
-
-                 - project information
-                 - project image
-
-                 inside this container.
+                 JavaScript inserts the complete project page here.
             -->
 
             <div id="project-content"></div>
 
 
 
-            <!-- ==================================================
-                 NEXT SLIDE
-                 ================================================== -->
-
-            <button
-                id="project-next"
-                type="button"
-                aria-label="Next slide"
-            >
-                &gt;
-            </button>
 
 
         </div>
@@ -162,7 +133,7 @@
 
     <script
         type="module"
-        src="script.js?v=10"
+        src="script.js?v=11"
     ></script>
 
 

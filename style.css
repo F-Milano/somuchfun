@@ -335,42 +335,20 @@ body {
    PROJECT CONTENT
    ========================================================= */
 
+/* Only this area scrolls. The reserved top strip keeps the X unobscured. */
 #project-content {
-
     position: absolute;
-
-    inset: 0;
-
-
-    /*
-       Space around text/images.
-
-       Extra horizontal room is left for the navigation
-       arrows.
-    */
-
-    padding:
-
-        clamp(50px, 7vh, 90px)
-
-        clamp(70px, 8vw, 130px);
-
-
-    overflow: auto;
+    inset: 80px 0 0;
+    padding: 0 clamp(24px, 5vw, 80px) 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
-
-
-/* =========================================================
-   PROJECT INFORMATION
-   ========================================================= */
-
 .project-info {
-
     width: 100%;
-    height: 100%;
-
-    overflow: auto;
+    overflow-wrap: anywhere;
 }
 
 
@@ -403,82 +381,22 @@ body {
 
 
 
-/* =========================================================
-   PROJECT SLIDESHOW IMAGE
-   ========================================================= */
+/* Scroll experiment: natural image proportions, with no fitted slide frame. */
+.project-figure {
+    margin: 36px 0;
+}
 
-.project-slide-image {
-
+.project-page-image {
     display: block;
-
     width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    user-select: none;
-    -webkit-user-select: none;
-
-    -webkit-user-drag: none;
+    height: auto;
 }
 
-
-
-/* Image-only geometry: the window wraps the fitted image plus a constant
-   project-coloured frame. The original info rules remain untouched. */
-#project-window.is-image-slide {
-    --image-frame: 30px;
-    width: calc(var(--image-width, 120px) + 2 * var(--image-frame));
-    height: calc(var(--image-height, 80px) + 2 * var(--image-frame));
-    max-width: 90vw;
-    max-height: 90vh;
-    max-height: 90dvh;
-    flex-shrink: 0;
-    overflow: visible;
-}
-
-#project-window.is-image-slide #project-content {
-    inset: var(--image-frame);
-    padding: 0;
-    overflow: hidden;
-}
-
-/* Centre the glyphs in the frame. Transparent 44px touch targets can
-   extend beyond the thin frame without covering the image with colour. */
-#project-window.is-image-slide button {
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
-    display: grid;
-    place-items: center;
-}
-
-#project-window.is-image-slide #project-close {
-    top: calc(var(--image-frame) / 2);
-    right: calc(var(--image-frame) / 2);
-    transform: translate(50%, -50%);
-}
-
-#project-window.is-image-slide #project-prev {
-    left: calc(var(--image-frame) / 2);
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#project-window.is-image-slide #project-next {
-    right: calc(var(--image-frame) / 2);
-    top: 50%;
-    transform: translate(50%, -50%);
-}
-
-@media (max-width: 600px) {
-    #project-window.is-image-slide {
-        --image-frame: 15px;
-    }
-
-    #project-window.is-image-slide button {
-        font-size: 16px;
-    }
+.project-figure figcaption {
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.35;
 }
 
 
@@ -486,9 +404,7 @@ body {
    OVERLAY BUTTONS — GENERAL
    ========================================================= */
 
-#project-close,
-#project-prev,
-#project-next {
+#project-close {
 
     position: absolute;
 
@@ -529,53 +445,9 @@ body {
     top: 20px;
     right: 25px;
 
+    width: 44px;
+    height: 44px;
     font-size: 42px;
-}
-
-
-
-/* =========================================================
-   PREVIOUS ARROW
-   ========================================================= */
-
-#project-prev {
-
-    left: 25px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    font-size: 50px;
-}
-
-
-
-/* =========================================================
-   NEXT ARROW
-   ========================================================= */
-
-#project-next {
-
-    right: 25px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    font-size: 50px;
-}
-
-
-
-/* =========================================================
-   DISABLED NAVIGATION BUTTON
-   ========================================================= */
-
-#project-prev:disabled,
-#project-next:disabled {
-
-    opacity: 0.2;
-
-    cursor: default;
 }
 
 
@@ -626,6 +498,7 @@ body {
 
         width: calc(100vw - 20px);
         height: calc(100vh - 20px);
+        height: calc(100dvh - 20px);
 
         max-width: none;
         max-height: none;
@@ -638,11 +511,8 @@ body {
 
     #project-content {
 
-        padding:
-            65px
-            45px
-            50px
-            45px;
+        inset: 65px 0 0;
+        padding: 0 20px 40px;
     }
 
 
@@ -656,26 +526,6 @@ body {
         right: 18px;
 
         font-size: 36px;
-    }
-
-
-    /* -----------------------------------------------------
-       Navigation arrows
-       ----------------------------------------------------- */
-
-    #project-prev {
-
-        left: 12px;
-
-        font-size: 40px;
-    }
-
-
-    #project-next {
-
-        right: 12px;
-
-        font-size: 40px;
     }
 
 
