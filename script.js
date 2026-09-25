@@ -383,7 +383,7 @@ function closeProject() {
 
 
 // ============================================================
-// SCROLL EXPERIMENT: render existing project data without changing its schema.
+// SCROLLING PROJECT PAGE
 // ============================================================
 
 function renderProjectPage() {
@@ -408,32 +408,70 @@ function renderProjectPage() {
     if (activeProject.location) appendText(`Location: ${activeProject.location}`);
     appendText(activeProject.description);
 
-    // Existing string paths remain supported; optional image objects can carry captions.
-    (activeProject.images || []).forEach((entry, index) => {
-        const imagePath = typeof entry === "string" ? entry : entry.src;
-        if (!imagePath) return;
+    renderProjectContent(activeProject, info);
+
+    appendText(activeProject.credits);
+    projectContent.appendChild(info);
+}
+
+
+// ============================================================
+// EDITORIAL IMAGES: explicit layouts, with legacy images-array support.
+// A content array (even an empty one) takes precedence over images.
+// ============================================================
+
+function renderProjectContent(project, container) {
+    const blocks = Array.isArray(project.content)
+        ? project.content
+        : (project.images || []).map((image) => ({
+            ...(typeof image === "string" ? { src: image } : image),
+            type: "image",
+            layout: "full"
+        }));
+    let imageNumber = 0;
+
+    function createImage(entry) {
+        if (!entry?.src) return null;
+        imageNumber += 1;
 
         const figure = document.createElement("figure");
-        figure.classList.add("project-figure");
+        figure.classList.add("project-image-item");
 
         const image = document.createElement("img");
-        image.src = imagePath;
-        image.alt = entry.alt || `${activeProject.title} - image ${index + 1}`;
+        image.src = entry.src;
+        image.alt = entry.alt || `${project.title} - image ${imageNumber}`;
         image.classList.add("project-page-image");
         image.draggable = false;
         figure.appendChild(image);
 
-        if (entry.caption) {
+        if (entry.caption?.trim()) {
             const caption = document.createElement("figcaption");
-            caption.textContent = entry.caption;
+            caption.classList.add("project-image-caption");
+            caption.textContent = entry.caption.trim();
             figure.appendChild(caption);
         }
+        return figure;
+    }
 
-        info.appendChild(figure);
+    blocks.forEach((block) => {
+        if (block?.type === "image") {
+            const figure = createImage(block);
+            if (!figure) return;
+            figure.classList.add(
+                block.layout === "medium" ? "project-image--medium" : "project-image--full"
+            );
+            container.appendChild(figure);
+        } else if (block?.type === "row" && Array.isArray(block.images)) {
+            const figures = block.images.map(createImage).filter(Boolean);
+            // At most three columns. Accidental extra images continue in another row.
+            for (let index = 0; index < figures.length; index += 3) {
+                const row = document.createElement("div");
+                row.classList.add("project-image-row");
+                row.append(...figures.slice(index, index + 3));
+                container.appendChild(row);
+            }
+        }
     });
-
-    appendText(activeProject.credits);
-    projectContent.appendChild(info);
 }
 
 

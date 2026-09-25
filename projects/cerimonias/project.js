@@ -18,5 +18,6 @@ export default {
     color: "#FFFFFF",
     textColor: "#FF3224",
 
-    images: []
+    // Ordered image/row blocks; full and medium images can have captions.
+    content: []
 };

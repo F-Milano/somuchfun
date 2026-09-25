@@ -20,9 +20,22 @@ export default {
     color: "#FFFFFF",
     textColor: "#FF3224",
 
-    images: [
-        "projects/ciabot-montebellina/images/20260723_130305.jpg",
-        "projects/ciabot-montebellina/images/20260723_125705.jpg",
-        "projects/ciabot-montebellina/images/20260723_125846.jpg"
+    // Ordered editorial blocks. Use layout: "medium" or type: "row" as needed.
+    content: [
+        {
+            type: "image",
+            src: "projects/ciabot-montebellina/images/20260723_130305.jpg",
+            layout: "full"
+        },
+        {
+            type: "image",
+            src: "projects/ciabot-montebellina/images/20260723_125705.jpg",
+            layout: "full"
+        },
+        {
+            type: "image",
+            src: "projects/ciabot-montebellina/images/20260723_125846.jpg",
+            layout: "full"
+        }
     ]
 };

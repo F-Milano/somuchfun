@@ -381,9 +381,33 @@ body {
 
 
 
-/* Scroll experiment: natural image proportions, with no fitted slide frame. */
-.project-figure {
+/* Editorial layouts are chosen in project data, never from image orientation. */
+.project-image-item {
+    min-width: 0;
+    margin: 0;
+}
+
+.project-image--full,
+.project-image--medium,
+.project-image-row {
     margin: 36px 0;
+}
+
+.project-image--full {
+    width: 100%;
+}
+
+.project-image--medium {
+    width: 60%;
+    margin-inline: auto;
+}
+
+.project-image-row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
 }
 
 .project-page-image {
@@ -392,7 +416,7 @@ body {
     height: auto;
 }
 
-.project-figure figcaption {
+.project-image-caption {
     margin-top: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
@@ -457,6 +481,17 @@ body {
    ========================================================= */
 
 @media (max-width: 600px) {
+
+    /* Use the same ordered content on mobile, with one image per row. */
+    .project-image--medium {
+        width: 100%;
+    }
+
+    .project-image-row {
+        grid-auto-flow: row;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
 
 
     /* -----------------------------------------------------
