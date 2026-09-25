@@ -23,19 +23,12 @@ export default {
     // Ordered editorial blocks. Use layout: "medium" or type: "row" as needed.
     content: [
         {
-            type: "image",
-            src: "projects/ciabot-montebellina/images/20260723_130305.jpg",
-            layout: "full"
-        },
-        {
-            type: "image",
-            src: "projects/ciabot-montebellina/images/20260723_125705.jpg",
-            layout: "full"
-        },
-        {
-            type: "image",
-            src: "projects/ciabot-montebellina/images/20260723_125846.jpg",
-            layout: "full"
+            type: "row",
+            images: [
+                { src: "projects/ciabot-montebellina/images/20260723_130305.jpg" },
+                { src: "projects/ciabot-montebellina/images/20260723_125705.jpg" },
+                { src: "projects/ciabot-montebellina/images/20260723_125846.jpg" }
+            ]
         }
     ]
 };
