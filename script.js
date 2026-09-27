@@ -117,6 +117,7 @@ function positionProjectRandomly(projectElement) {
     );
 
 
+    const titleRect = document.querySelector("#about-link").getBoundingClientRect();
     const obstacles = Array.from(
         document.querySelectorAll('.project[data-initialized="true"]')
     ).filter((element) => element !== projectElement)
@@ -129,6 +130,10 @@ function positionProjectRandomly(projectElement) {
     for (let attempt = 0; attempt < 200; attempt += 1) {
         const candidateX = screenMargin + Math.random() * availableWidth;
         const candidateY = screenMargin + Math.random() * availableHeight;
+        if (
+            candidateX < titleRect.right + 16 && candidateX + width > titleRect.left - 16 &&
+            candidateY < titleRect.bottom + 16 && candidateY + height > titleRect.top - 16
+        ) continue;
         const score = obstacles.reduce((total, rect) => {
             const overlapWidth = Math.max(0,
                 Math.min(candidateX + width, rect.right + 16) -
@@ -623,5 +628,11 @@ window.addEventListener("resize", () => {
 
         projectElement.style.top =
             `${y}px`;
+        const titleRect = document.querySelector("#about-link").getBoundingClientRect();
+        const iconRect = projectElement.getBoundingClientRect();
+        if (
+            iconRect.left < titleRect.right + 16 && iconRect.right > titleRect.left - 16 &&
+            iconRect.top < titleRect.bottom + 16 && iconRect.bottom > titleRect.top - 16
+        ) positionProjectRandomly(projectElement);
     });
 });
