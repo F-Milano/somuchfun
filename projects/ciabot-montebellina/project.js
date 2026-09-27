@@ -10,8 +10,7 @@ export default {
         Living spaces unfold around a sheltered courtyard, framing the landscape and welcoming the changing light.
     `,
 
-    year: "2026",
-    location: "Alba, Italy",
+    details: "2026 — Alba, Italy",
 
     credits: `
         Francesco Milano

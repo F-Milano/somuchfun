@@ -8,8 +8,7 @@ export default {
         Project description.
     `,
 
-    year: "",
-    location: "",
+    details: "",
 
     credits: `
         Project credits.

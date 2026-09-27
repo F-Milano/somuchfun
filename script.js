@@ -426,8 +426,7 @@ function renderProjectPage() {
         info.appendChild(paragraph);
     }
 
-    if (activeProject.year) appendText(`Year: ${activeProject.year}`);
-    if (activeProject.location) appendText(`Location: ${activeProject.location}`);
+    appendText(activeProject.details);
     appendText(activeProject.description);
 
     renderProjectContent(activeProject, info);
