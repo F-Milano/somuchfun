@@ -21,9 +21,7 @@ export default {
     content: [
         {
             type: "image",
-            images: [
-                { src: "projects/tamaco/images/1.jpg" },
-            ]
+            src: "projects/tamaco/images/1.png"
         },
 
         {
