@@ -1,6 +1,6 @@
 export default {
     id: "tamaco",
-    title: "Tamaco",
+    title: "TaMaCo",
 
     icon: "projects/tamaco/icon.webp",
 
@@ -8,7 +8,7 @@ export default {
         Project description.
     `,
 
-    year: "",
+    year: "2018",
     location: "",
 
     credits: `
