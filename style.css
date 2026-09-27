@@ -162,6 +162,7 @@ body {
 .project {
 
     position: absolute;
+    aspect-ratio: 1;
 
 
     /* Responsive project size */
@@ -200,12 +201,36 @@ body {
    PROJECT IMAGES
    ========================================================= */
 
+.project::before {
+    content: "";
+    position: absolute;
+    width: clamp(32px, 4vw, 56px);
+    aspect-ratio: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--text-color);
+}
+
+.project.has-icon:hover::before,
+.project.has-icon:focus-visible::before {
+    opacity: 0;
+}
+
+.project.has-icon:hover img,
+.project.has-icon:focus-visible img {
+    opacity: 1;
+}
+
 .project img {
 
     display: block;
 
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
 
 
     pointer-events: none;

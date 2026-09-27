@@ -49,6 +49,7 @@ projects.forEach((project) => {
     projectElement.classList.add("project");
     projectElement.href = "#";
     projectElement.dataset.project = project.id;
+    projectElement.setAttribute("aria-label", project.title);
 
 
     // Create project icon image
@@ -63,19 +64,19 @@ projects.forEach((project) => {
     canvas.appendChild(projectElement);
 
 
-    // Initialize this project as soon as its image is ready.
+    // Keep the dot available even if its image cannot load.
     if (image.complete && image.naturalWidth > 0) {
-
-        initializeProject(projectElement);
-
+        projectElement.classList.add("has-icon");
     } else {
 
         image.addEventListener(
             "load",
-            () => initializeProject(projectElement),
+            () => projectElement.classList.add("has-icon"),
             { once: true }
         );
     }
+    // Measure the title after its custom font has loaded.
+    document.fonts.ready.then(() => initializeProject(projectElement));
 });
 
 
@@ -116,13 +117,35 @@ function positionProjectRandomly(projectElement) {
     );
 
 
-    const x =
-        screenMargin +
-        Math.random() * availableWidth;
+    const title = document.querySelector("#about-link").getBoundingClientRect();
+    const obstacles = [title, ...Array.from(
+        document.querySelectorAll('.project[data-initialized="true"]')
+    ).filter((element) => element !== projectElement)
+        .map((element) => element.getBoundingClientRect())];
+    let x = screenMargin;
+    let y = screenMargin;
+    let bestScore = Infinity;
 
-    const y =
-        screenMargin +
-        Math.random() * availableHeight;
+    // Prefer clear space for the whole revealed icon, with a small gap.
+    for (let attempt = 0; attempt < 200; attempt += 1) {
+        const candidateX = screenMargin + Math.random() * availableWidth;
+        const candidateY = screenMargin + Math.random() * availableHeight;
+        const score = obstacles.reduce((total, rect, index) => {
+            const overlapWidth = Math.max(0,
+                Math.min(candidateX + width, rect.right + 16) -
+                Math.max(candidateX, rect.left - 16));
+            const overlapHeight = Math.max(0,
+                Math.min(candidateY + height, rect.bottom + 16) -
+                Math.max(candidateY, rect.top - 16));
+            return total + overlapWidth * overlapHeight * (index === 0 ? 100 : 1);
+        }, 0);
+        if (score < bestScore) {
+            bestScore = score;
+            x = candidateX;
+            y = candidateY;
+        }
+        if (score === 0) break;
+    }
 
 
     projectElement.style.left = `${x}px`;
