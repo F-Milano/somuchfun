@@ -8,6 +8,17 @@
    ========================================================= */
 
 :root {
+    /* Project side spacing: vw follows viewport width; px sets fixed limits. */
+    --project-side-margin-min: 20px;
+    --project-side-margin-fluid: 3vw;
+    --project-side-margin-max: 48px;
+    --project-side-margin-mobile: 16px;
+    --project-side-margin: clamp(
+        var(--project-side-margin-min),
+        var(--project-side-margin-fluid),
+        var(--project-side-margin-max)
+    );
+    --project-row-gap: 24px;
 
     /* Homepage colours */
     --background-color: #ff4000;
@@ -337,12 +348,12 @@ body {
    PROJECT CONTENT
    ========================================================= */
 
-/* Only this area scrolls. The reserved top strip keeps the X unobscured. */
+/* Only this area scrolls, with fixed side margins and no top/bottom padding. */
 #project-content {
     position: absolute;
     container-type: size;
-    inset: 80px 0 0;
-    padding: 0 clamp(20px, 3vw, 48px) 50px;
+    inset: 0;
+    padding: 0 var(--project-side-margin);
     overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior-y: contain;
@@ -352,6 +363,14 @@ body {
 .project-info {
     width: 100%;
     overflow-wrap: anywhere;
+}
+
+.project-info > :first-child {
+    margin-top: 0;
+}
+
+.project-info > :last-child {
+    margin-bottom: 0;
 }
 
 
@@ -409,10 +428,11 @@ body {
 
 .project-image-row {
     display: grid;
+    width: 100%;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
     align-items: start;
-    gap: 24px;
+    gap: var(--project-row-gap);
 }
 
 .project-page-image {
@@ -496,6 +516,9 @@ body {
    ========================================================= */
 
 @media (max-width: 600px) {
+    #project-content {
+        --project-side-margin: var(--project-side-margin-mobile);
+    }
 
     /* Use the same ordered content on mobile, with one image per row. */
     .project-image--medium {
@@ -559,11 +582,6 @@ body {
        Project content
        ----------------------------------------------------- */
 
-    #project-content {
-
-        inset: 65px 0 0;
-        padding: 0 16px 40px;
-    }
 
 
     /* -----------------------------------------------------
