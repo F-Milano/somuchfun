@@ -365,7 +365,7 @@ body {
     position: absolute;
     container-type: size;
     inset: 80px 0 0;
-    padding: 0 clamp(24px, 5vw, 80px) 50px;
+    padding: 0 clamp(20px, 3vw, 48px) 50px;
     overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior-y: contain;
@@ -395,14 +395,14 @@ body {
 
 .project-info p {
 
-    max-width: 750px;
+    max-width: 100%;
 
     margin: 0 auto 20px;
     text-align: justify;
 
     font-family: Arial, Helvetica, sans-serif;
 
-    font-size: clamp(16px, 1.4vw, 22px);
+    font-size: clamp(15px, 1.2vw, 19px);
 
     line-height: 1.35;
 }
@@ -585,7 +585,7 @@ body {
     #project-content {
 
         inset: 65px 0 0;
-        padding: 0 20px 40px;
+        padding: 0 16px 40px;
     }
 
 
@@ -616,7 +616,7 @@ body {
 
     .project-info p {
 
-        font-size: 16px;
+        font-size: 15px;
 
         line-height: 1.35;
     }
