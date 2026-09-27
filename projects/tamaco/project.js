@@ -22,7 +22,7 @@ export default {
     content: [
         {
             type: "video",
-            src: "https://player.vimeo.com/video/405883755?h=ae0e3b8432",
+            src: "https://player.vimeo.com/video/405883755?title=0&byline=0&portrait=0",
             title: "TaMaCo — Vimeo video"
         }
     ]
