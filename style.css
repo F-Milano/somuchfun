@@ -418,10 +418,12 @@ body {
 
 .project-page-video {
     display: block;
-    width: 100%;
+    /* Limit height to 40% of the viewport while preserving 16:9. */
+    width: min(100%, 640px, 71.11vh);
+    width: min(100%, 640px, 71.11dvh);
     height: auto;
     aspect-ratio: 16 / 9;
-    margin: 36px 0;
+    margin: 36px auto;
     border: 0;
 }
 
