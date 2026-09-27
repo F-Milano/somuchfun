@@ -356,8 +356,13 @@ body {
     padding: 0 var(--project-side-margin);
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
+}
+
+#project-content::-webkit-scrollbar {
+    display: none;
 }
 
 .project-info {

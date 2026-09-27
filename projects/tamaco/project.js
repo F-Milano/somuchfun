@@ -21,7 +21,8 @@ export default {
     content: [
         {
             type: "image",
-            src: "projects/tamaco/images/1.png"
+            src: "projects/tamaco/images/1.png",
+            scale: 0.7 // Fraction of content width: 1 = full width, 0.5 = half.
         },
 
         {

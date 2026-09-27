@@ -495,6 +495,11 @@ function renderProjectContent(project, container) {
             figure.classList.add(
                 block.layout === "medium" ? "project-image--medium" : "project-image--full"
             );
+            // Optional scale overrides layout width: 0.7 = 70% of content width.
+            if (Number.isFinite(block.scale) && block.scale > 0) {
+                figure.style.width = `${Math.min(block.scale, 1) * 100}%`;
+                figure.style.marginInline = "auto";
+            }
             container.appendChild(figure);
         } else if (block?.type === "video" && block.src) {
             container.appendChild(createVideo(block));
