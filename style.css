@@ -444,8 +444,10 @@ body {
 
 .project-page-image {
     display: block;
-    width: 100%;
+    /* Fit either the available width or visible height without cropping. */
+    width: min(100%, calc(100cqh * var(--image-ratio, 1)));
     height: auto;
+    margin-inline: auto;
 }
 
 .project-page-video {

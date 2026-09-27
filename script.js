@@ -464,6 +464,13 @@ function renderProjectContent(project, container) {
         image.classList.add("project-page-image");
         image.draggable = false;
         figure.appendChild(image);
+        const setImageRatio = () => {
+            if (image.naturalWidth && image.naturalHeight) {
+                image.style.setProperty("--image-ratio", image.naturalWidth / image.naturalHeight);
+            }
+        };
+        image.addEventListener("load", setImageRatio, { once: true });
+        setImageRatio();
 
         if (entry.caption?.trim()) {
             const caption = document.createElement("figcaption");
@@ -495,11 +502,6 @@ function renderProjectContent(project, container) {
             figure.classList.add(
                 block.layout === "medium" ? "project-image--medium" : "project-image--full"
             );
-            // Optional scale overrides layout width: 0.7 = 70% of content width.
-            if (Number.isFinite(block.scale) && block.scale > 0) {
-                figure.style.width = `${Math.min(block.scale, 1) * 100}%`;
-                figure.style.marginInline = "auto";
-            }
             container.appendChild(figure);
         } else if (block?.type === "video" && block.src) {
             container.appendChild(createVideo(block));

@@ -21,8 +21,7 @@ export default {
     content: [
         {
             type: "image",
-            src: "projects/tamaco/images/1.png",
-            scale: 0.7 // Fraction of content width: 1 = full width, 0.5 = half.
+            src: "projects/tamaco/images/1.png"
         },
 
         {
@@ -87,7 +86,7 @@ export default {
                     title: "TaMaCo — Vimeo video"
                 },
                 {
-                    src: "https://player.vimeo.com/video/428191264?h=f77fc18c8b",
+                    src: "https://player.vimeo.com/video/428191264?h=f77fc18c8b&title=0&byline=0&portrait=0",
                     title: "TaMaCo_2016"
                 }
             ]
