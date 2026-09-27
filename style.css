@@ -33,9 +33,9 @@
 
 
     /* Central title — desktop */
-    --title-size: 8vw;
-    --title-min-size: 32px;
-    --title-max-size: 120px;
+    --title-size: 3vw;
+    --title-min-size: 28px;
+    --title-max-size: 44px;
 
 
     /* Project icon size — mobile */
@@ -45,9 +45,9 @@
 
 
     /* Central title — mobile */
-    --mobile-title-size: 9vw;
-    --mobile-title-min-size: 20px;
-    --mobile-title-max-size: 54px;
+    --mobile-title-size: 6vw;
+    --mobile-title-min-size: 22px;
+    --mobile-title-max-size: 30px;
 }
 
 
@@ -117,10 +117,8 @@ body {
 
     position: fixed;
 
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
+    left: 30px;
+    top: 30px;
 
 
     /* Typography */
