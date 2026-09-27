@@ -416,6 +416,15 @@ body {
     height: auto;
 }
 
+.project-page-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: 36px 0;
+    border: 0;
+}
+
 .project-image-caption {
     margin-top: 10px;
     font-family: Arial, Helvetica, sans-serif;

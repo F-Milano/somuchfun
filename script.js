@@ -416,7 +416,7 @@ function renderProjectPage() {
 
 
 // ============================================================
-// EDITORIAL IMAGES: explicit layouts, with legacy images-array support.
+// EDITORIAL CONTENT: images, rows, and videos, with legacy images-array support.
 // A content array (even an empty one) takes precedence over images.
 // ============================================================
 
@@ -461,6 +461,17 @@ function renderProjectContent(project, container) {
                 block.layout === "medium" ? "project-image--medium" : "project-image--full"
             );
             container.appendChild(figure);
+        } else if (block?.type === "video" && block.src) {
+            const video = document.createElement("iframe");
+            video.classList.add("project-page-video");
+            video.src = block.src;
+            video.title = block.title || `${project.title} - video`;
+            video.width = "640";
+            video.height = "360";
+            video.referrerPolicy = "strict-origin-when-cross-origin";
+            video.allow = "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share";
+            video.allowFullscreen = true;
+            container.appendChild(video);
         } else if (block?.type === "row" && Array.isArray(block.images)) {
             const figures = block.images.map(createImage).filter(Boolean);
             // At most three columns. Accidental extra images continue in another row.
