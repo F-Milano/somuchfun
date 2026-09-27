@@ -338,6 +338,7 @@ body {
 /* Only this area scrolls. The reserved top strip keeps the X unobscured. */
 #project-content {
     position: absolute;
+    container-type: size;
     inset: 80px 0 0;
     padding: 0 clamp(24px, 5vw, 80px) 50px;
     overflow-y: auto;
@@ -418,9 +419,8 @@ body {
 
 .project-page-video {
     display: block;
-    /* Limit height to 40% of the viewport while preserving 16:9. */
-    width: min(100%, 640px, 71.11vh);
-    width: min(100%, 640px, 71.11dvh);
+    /* Fit the content area's width or visible height, whichever limits first. */
+    width: min(100%, calc(100cqh * 16 / 9));
     height: auto;
     aspect-ratio: 16 / 9;
     margin: 36px auto;
