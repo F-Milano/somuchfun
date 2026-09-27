@@ -9,7 +9,7 @@ export default {
     `,
 
     year: "2018",
-    location: "",
+    location: "Buenos Aires, Parque Patricios",
 
     credits: `
         Project credits.
@@ -20,6 +20,15 @@ export default {
 
     // Ordered image, row, and video blocks.
     content: [
+        {
+            type: "row",
+            images: [
+                { src: "projects/tamaco/images/3.jpg" },
+                { src: "projects/tamaco/images/4.jpg" },
+                { src: "projects/tamaco/images/5.jpg" }
+            ]
+        },
+
         {
             type: "video",
             src: "https://player.vimeo.com/video/405883755?title=0&byline=0&portrait=0",

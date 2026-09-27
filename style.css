@@ -502,14 +502,14 @@ body {
 #project-close {
 
     top: 0;
-    right: var(--project-side-margin);
+    right: 0;
 
-    width: 44px;
+    width: var(--project-side-margin);
     height: var(--project-side-margin);
     font-size: 0;
 }
 
-/* Draw the X symmetrically around the exact midpoint of the top padding. */
+/* Center the X equally within the top and right padding. */
 #project-close::before,
 #project-close::after {
     content: "";
