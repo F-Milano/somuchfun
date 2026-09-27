@@ -1,8 +1,8 @@
 export default {
-    id: "smart-pasta",
-    title: "Smart Pasta",
+    id: "tamaco",
+    title: "Tamaco",
 
-    icon: "projects/smart-pasta/icon.webp",
+    icon: "projects/tamaco/icon.webp",
 
     description: `
         Project description.
