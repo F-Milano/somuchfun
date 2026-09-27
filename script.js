@@ -474,6 +474,20 @@ function renderProjectContent(project, container) {
         return figure;
     }
 
+    function createVideo(entry) {
+        if (!entry?.src) return null;
+        const video = document.createElement("iframe");
+        video.classList.add("project-page-video");
+        video.src = entry.src;
+        video.title = entry.title || `${project.title} - video`;
+        video.width = "640";
+        video.height = "360";
+        video.referrerPolicy = "strict-origin-when-cross-origin";
+        video.allow = "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share";
+        video.allowFullscreen = true;
+        return video;
+    }
+
     blocks.forEach((block) => {
         if (block?.type === "image") {
             const figure = createImage(block);
@@ -483,16 +497,15 @@ function renderProjectContent(project, container) {
             );
             container.appendChild(figure);
         } else if (block?.type === "video" && block.src) {
-            const video = document.createElement("iframe");
-            video.classList.add("project-page-video");
-            video.src = block.src;
-            video.title = block.title || `${project.title} - video`;
-            video.width = "640";
-            video.height = "360";
-            video.referrerPolicy = "strict-origin-when-cross-origin";
-            video.allow = "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share";
-            video.allowFullscreen = true;
-            container.appendChild(video);
+            container.appendChild(createVideo(block));
+        } else if (block?.type === "video-row" && Array.isArray(block.videos)) {
+            const videos = block.videos.map(createVideo).filter(Boolean);
+            for (let index = 0; index < videos.length; index += 3) {
+                const row = document.createElement("div");
+                row.classList.add("project-video-row");
+                row.append(...videos.slice(index, index + 3));
+                container.appendChild(row);
+            }
         } else if (block?.type === "row" && Array.isArray(block.images)) {
             const figures = block.images.map(createImage).filter(Boolean);
             // At most three columns. Accidental extra images continue in another row.

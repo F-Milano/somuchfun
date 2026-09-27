@@ -413,7 +413,8 @@ body {
 
 .project-image--full,
 .project-image--medium,
-.project-image-row {
+.project-image-row,
+.project-video-row {
     margin: 36px 0;
 }
 
@@ -426,7 +427,8 @@ body {
     margin-inline: auto;
 }
 
-.project-image-row {
+.project-image-row,
+.project-video-row {
     display: grid;
     width: 100%;
     grid-auto-flow: column;
@@ -449,6 +451,12 @@ body {
     aspect-ratio: 16 / 9;
     margin: 36px auto;
     border: 0;
+}
+
+.project-video-row .project-page-video {
+    min-width: 0;
+    width: 100%;
+    margin: 0;
 }
 
 .project-image-caption {
@@ -542,7 +550,8 @@ body {
         width: 100%;
     }
 
-    .project-image-row {
+    .project-image-row,
+    .project-video-row {
         grid-auto-flow: row;
         grid-template-columns: minmax(0, 1fr);
     }

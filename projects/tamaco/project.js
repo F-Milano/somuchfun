@@ -79,9 +79,17 @@ export default {
         },
 
         {
-            type: "video",
-            src: "https://player.vimeo.com/video/405883755?title=0&byline=0&portrait=0",
-            title: "TaMaCo — Vimeo video"
+            type: "video-row",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/405883755?title=0&byline=0&portrait=0",
+                    title: "TaMaCo — Vimeo video"
+                },
+                {
+                    src: "https://player.vimeo.com/video/428191264?h=f77fc18c8b",
+                    title: "TaMaCo_2016"
+                }
+            ]
         }
     ]
 };
