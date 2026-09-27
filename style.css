@@ -161,8 +161,8 @@ body {
 }
 
 body.is-about #introduction {
-    top: 90px;
-    max-height: calc(100dvh - 120px);
+    max-height: calc(100dvh - 60px);
+    padding-right: 52px;
     text-align: left;
     overflow-y: auto;
     pointer-events: auto;
@@ -175,7 +175,7 @@ body.is-about #canvas {
 #back-to-projects:not([hidden]) {
     position: fixed;
     top: 22px;
-    left: 22px;
+    right: 22px;
     display: grid;
     place-items: center;
     width: 44px;
