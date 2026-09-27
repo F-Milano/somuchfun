@@ -161,7 +161,9 @@ body {
 }
 
 body.is-about #introduction {
-    max-height: calc(100dvh - 60px);
+    top: 90px;
+    max-height: calc(100dvh - 120px);
+    text-align: left;
     overflow-y: auto;
     pointer-events: auto;
 }
@@ -171,12 +173,23 @@ body.is-about #canvas {
 }
 
 #back-to-projects:not([hidden]) {
-    display: block;
-    width: fit-content;
-    margin-top: 32px;
-    font-size: 16px;
+    position: fixed;
+    top: 22px;
+    left: 22px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
     color: #000;
     pointer-events: auto;
+}
+
+#back-to-projects svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
 }
 
 
