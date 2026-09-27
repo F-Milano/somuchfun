@@ -8,7 +8,7 @@
    ========================================================= */
 
 :root {
-    /* Project side spacing: vw follows viewport width; px sets fixed limits. */
+    /* Project padding on all sides: vw follows viewport width; px sets fixed limits. */
     --project-side-margin-min: 20px;
     --project-side-margin-fluid: 3vw;
     --project-side-margin-max: 48px;
@@ -348,11 +348,11 @@ body {
    PROJECT CONTENT
    ========================================================= */
 
-/* Only this area scrolls, with fixed side margins and no top/bottom padding. */
+/* Keep equal clear space on all sides, including while the content scrolls. */
 #project-content {
     position: absolute;
     container-type: size;
-    inset: 0;
+    inset: var(--project-side-margin) 0;
     padding: 0 var(--project-side-margin);
     overflow-y: auto;
     overflow-x: hidden;
@@ -501,12 +501,29 @@ body {
 
 #project-close {
 
-    top: 20px;
-    right: 25px;
+    top: 0;
+    right: var(--project-side-margin);
 
     width: 44px;
-    height: 44px;
-    font-size: 42px;
+    height: var(--project-side-margin);
+    font-size: 0;
+}
+
+/* Draw the X symmetrically around the exact midpoint of the top padding. */
+#project-close::before,
+#project-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(12px, calc(var(--project-side-margin) * 0.6), 24px);
+    height: 2px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#project-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 
@@ -516,7 +533,7 @@ body {
    ========================================================= */
 
 @media (max-width: 600px) {
-    #project-content {
+    #project-window {
         --project-side-margin: var(--project-side-margin-mobile);
     }
 
@@ -588,13 +605,6 @@ body {
        Close button
        ----------------------------------------------------- */
 
-    #project-close {
-
-        top: 15px;
-        right: 18px;
-
-        font-size: 36px;
-    }
 
 
     /* -----------------------------------------------------
