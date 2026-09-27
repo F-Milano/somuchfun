@@ -11,7 +11,7 @@ export default {
     details: "2012 - 2018; Buenos Aires, Parque Patricios",
 
     credits: `
-        Project credits.
+        Karen Antorveza, Fabian Wagmister, Dara Gelof, Santiago Nuñez Villamil , Diana Zorzoli, Ramiro Iturrioz, Federico, Carlos Leiva y family, Juan Pablo Margenat, Carlos Zábala, Camila Narbaitz Sarsur, Guillaume Jami, Paula Gonzalez, Nicolas Vischi, Gabriel Fortunato, Paula Herrera, Marina Pla, Melina Scioli, Marina Pia Fatta, cheLa..
     `,
 
     color: "#FFFFFF",
@@ -90,7 +90,7 @@ export default {
                     title: "TaMaCo_2016"
                 }
             ]
-        }
+        },
 
         {
             type: "video-row",
