@@ -83,10 +83,24 @@ export default {
             videos: [
                 {
                     src: "https://player.vimeo.com/video/405883755?title=0&byline=0&portrait=0",
-                    title: "TaMaCo — Vimeo video"
+                    title: "Chela_compiled"
                 },
                 {
                     src: "https://player.vimeo.com/video/428191264?h=f77fc18c8b&title=0&byline=0&portrait=0",
+                    title: "TaMaCo_2016"
+                }
+            ]
+        }
+
+        {
+            type: "video-row",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/427162294?title=0&byline=0&portrait=0",
+                    title: "Chela compiled"
+                },
+                {
+                    src: "https://player.vimeo.com/video/425041667?h=f77fc18c8b&title=0&byline=0&portrait=0",
                     title: "TaMaCo_2016"
                 }
             ]
