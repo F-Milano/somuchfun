@@ -13,9 +13,12 @@
 import ciabotMontebellina from "./ciabot-montebellina/project.js";
 import cerimonias from "./cerimonias/project.js";
 import smartPasta from "./smart-pasta/project.js";
+import tamaco from "./tamaco/project.js";
+
 
 export const projects = [
     ciabotMontebellina,
     cerimonias,
-    smartPasta
+    smartPasta,
+    tamaco
 ];
