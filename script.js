@@ -36,6 +36,27 @@ const projectClose = document.querySelector("#project-close");
 // Currently open project
 let activeProject = null;
 
+const aboutLink = document.querySelector("#about-link");
+const aboutText = document.querySelector("#about-text");
+const backToProjects = document.querySelector("#back-to-projects");
+
+function syncAboutView() {
+    const isAbout = window.location.hash === "#about";
+    if (isAbout && activeProject) closeProject();
+    document.body.classList.toggle("is-about", isAbout);
+    aboutText.hidden = !isAbout;
+    backToProjects.hidden = !isAbout;
+    aboutLink.setAttribute("aria-expanded", String(isAbout));
+    if (!isAbout) {
+        canvas.querySelectorAll('.project:not([data-initialized="true"])')
+            .forEach(initializeProject);
+    }
+    if (!isAbout && document.activeElement === backToProjects) aboutLink.focus();
+}
+
+window.addEventListener("hashchange", syncAboutView);
+syncAboutView();
+
 
 
 // ============================================================
@@ -85,6 +106,7 @@ projects.forEach((project) => {
 // ============================================================
 
 function initializeProject(projectElement) {
+    if (document.body.classList.contains("is-about") || projectElement.dataset.initialized === "true") return;
 
     positionProjectRandomly(projectElement);
     activateDragging(projectElement);
