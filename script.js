@@ -61,11 +61,6 @@ projects.forEach((project) => {
 
 
     projectElement.appendChild(image);
-    const hoverTitle = document.createElement("span");
-    hoverTitle.classList.add("project-hover-title");
-    hoverTitle.textContent = project.title;
-    hoverTitle.setAttribute("aria-hidden", "true");
-    projectElement.appendChild(hoverTitle);
     canvas.appendChild(projectElement);
 
 
@@ -108,8 +103,7 @@ function initializeProject(projectElement) {
 function positionProjectRandomly(projectElement) {
 
     const width = projectElement.offsetWidth;
-    const height = projectElement.offsetHeight +
-        projectElement.querySelector(".project-hover-title").offsetHeight + 10;
+    const height = projectElement.offsetHeight;
 
 
     const availableWidth = Math.max(
@@ -244,8 +238,7 @@ function activateDragging(projectElement) {
 
 
         const width = projectElement.offsetWidth;
-        const height = projectElement.offsetHeight +
-            projectElement.querySelector(".project-hover-title").offsetHeight + 10;
+        const height = projectElement.offsetHeight;
 
 
         const maxX = Math.max(
@@ -571,8 +564,7 @@ window.addEventListener("resize", () => {
             projectElement.offsetWidth;
 
         const height =
-            projectElement.offsetHeight +
-            projectElement.querySelector(".project-hover-title").offsetHeight + 10;
+            projectElement.offsetHeight;
 
 
         const maxX = Math.max(

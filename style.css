@@ -201,31 +201,6 @@ body {
    PROJECT IMAGES
    ========================================================= */
 
-.project-hover-title {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
-    color: var(--text-color);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(14px, 1.2vw, 18px);
-    line-height: 1.25;
-    text-align: center;
-    overflow-wrap: anywhere;
-    pointer-events: none;
-    visibility: hidden;
-}
-
-.project:hover .project-hover-title,
-.project:focus-visible .project-hover-title {
-    visibility: visible;
-}
-
-/* Keep the label out of the project overlay, including its transparent edges. */
-body:has(#project-overlay.is-open) .project-hover-title {
-    visibility: hidden;
-}
-
 .project img {
 
     display: block;
