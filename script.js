@@ -117,11 +117,10 @@ function positionProjectRandomly(projectElement) {
     );
 
 
-    const title = document.querySelector("#about-link").getBoundingClientRect();
-    const obstacles = [title, ...Array.from(
+    const obstacles = Array.from(
         document.querySelectorAll('.project[data-initialized="true"]')
     ).filter((element) => element !== projectElement)
-        .map((element) => element.getBoundingClientRect())];
+        .map((element) => element.getBoundingClientRect());
     let x = screenMargin;
     let y = screenMargin;
     let bestScore = Infinity;
@@ -130,14 +129,14 @@ function positionProjectRandomly(projectElement) {
     for (let attempt = 0; attempt < 200; attempt += 1) {
         const candidateX = screenMargin + Math.random() * availableWidth;
         const candidateY = screenMargin + Math.random() * availableHeight;
-        const score = obstacles.reduce((total, rect, index) => {
+        const score = obstacles.reduce((total, rect) => {
             const overlapWidth = Math.max(0,
                 Math.min(candidateX + width, rect.right + 16) -
                 Math.max(candidateX, rect.left - 16));
             const overlapHeight = Math.max(0,
                 Math.min(candidateY + height, rect.bottom + 16) -
                 Math.max(candidateY, rect.top - 16));
-            return total + overlapWidth * overlapHeight * (index === 0 ? 100 : 1);
+            return total + overlapWidth * overlapHeight;
         }, 0);
         if (score < bestScore) {
             bestScore = score;
