@@ -1,5 +1,5 @@
 export default {
-    id: "livsmats",
+    id: "livmats",
     title: "**LivMatS** - ITECH Pavillion 2020-2021",
 
     icon: "projects/livmats/icon.webp",
@@ -40,12 +40,14 @@ export default {
     // Ordered editorial blocks. Use layout: "medium" or type: "row" as needed.
     content: [
         {
-            type: "row",
-            images: [
-                { src: "projects/montebellina/images/20260723_130305.jpg" },
-                { src: "projects/montebellina/images/20260723_125705.jpg" },
-                { src: "projects/montebellina/images/20260723_125846.jpg" }
+            type: "video",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/576404217?title=0&byline=0&portrait=0",
+                    title: "LivsMats"
+                }
             ]
         }
     ]
 };
+
