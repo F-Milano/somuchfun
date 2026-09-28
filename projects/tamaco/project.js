@@ -97,11 +97,11 @@ export default {
             videos: [
                 {
                     src: "https://player.vimeo.com/video/427162294?title=0&byline=0&portrait=0",
-                    title: "Chela compiled"
+                    title: "plegado"
                 },
                 {
                     src: "https://player.vimeo.com/video/425041667?h=f77fc18c8b&title=0&byline=0&portrait=0",
-                    title: "TaMaCo_2016"
+                    title: "mascaras"
                 }
             ]
         },
@@ -111,11 +111,11 @@ export default {
             videos: [
                 {
                     src: "https://player.vimeo.com/video/425032868?title=0&byline=0&portrait=0",
-                    title: "Chela compiled"
+                    title: "3DP"
                 },
                 {
                     src: "https://player.vimeo.com/video/421443275?h=f77fc18c8b&title=0&byline=0&portrait=0",
-                    title: "TaMaCo_2016"
+                    title: "AquaAlta"
                 }
             ]
         },
@@ -125,11 +125,53 @@ export default {
             videos: [
                 {
                     src: "https://player.vimeo.com/video/215739582?title=0&byline=0&portrait=0",
-                    title: "Chela compiled"
+                    title: "ResBici"
                 },
                 {
                     src: "https://player.vimeo.com/video/399098255?h=f77fc18c8b&title=0&byline=0&portrait=0",
-                    title: "TaMaCo_2016"
+                    title: "ResPapel"
+                }
+            ]
+        },
+
+        {
+            type: "video-row",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/224993646?title=0&byline=0&portrait=0",
+                    title: "Autoconstruccion"
+                },
+                {
+                    src: "https://player.vimeo.com/video/187393488?h=f77fc18c8b&title=0&byline=0&portrait=0",
+                    title: "PlazaLuna"
+                }
+            ]
+        },
+
+        {
+            type: "video-row",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/170408628?title=0&byline=0&portrait=0",
+                    title: "Furetsu"
+                },
+                {
+                    src: "https://player.vimeo.com/video/137910995?h=f77fc18c8b&title=0&byline=0&portrait=0",
+                    title: "LabParquePatricios"
+                }
+            ]
+        },
+
+        {
+            type: "video-row",
+            videos: [
+                {
+                    src: "https://player.vimeo.com/video/250455103?title=0&byline=0&portrait=0",
+                    title: "MapeoPP"
+                },
+                {
+                    src: "https://player.vimeo.com/video/250455103?title=0&byline=0&portrait=0",
+                    title: "MapeoPP"
                 }
             ]
         }
