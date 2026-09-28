@@ -38,7 +38,7 @@ export default {
                 { src: "projects/cerimonias/images/1.jpg" },
                 { src: "projects/cerimonias/images/5.jpg" }
             ]
-        }
+        },
 
         {
             type: "row",
@@ -46,7 +46,7 @@ export default {
                 { src: "projects/cerimonias/images/2.jpg" },
                 { src: "projects/cerimonias/images/3.jpg" }
             ]
-        }
+        },
 
         {
             type: "row",
