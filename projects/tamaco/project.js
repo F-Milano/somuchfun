@@ -1,6 +1,6 @@
 export default {
     id: "tamaco",
-    title: "TaMaCo",
+    title: "**TaMaCo** - Taller de Materiales y Construccion",
 
     icon: "projects/tamaco/icon.webp",
 

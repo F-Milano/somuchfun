@@ -1,6 +1,6 @@
 export default {
     id: "cerimonias",
-    title: "Edificio Para Cerimonias Desconocidas",
+    title: "**Edificio Para Cerimonias Desconocidas** - High Tech Design, Low Tech Fabrication",
 
     icon: "projects/cerimonias/icon.webp",
 
@@ -24,8 +24,8 @@ The amount of timber employed was optimized to correspond exactly to the amount 
         {
             type: "row",
             images: [
-                { src: "projects/cerimonias/images/1.jpg" },
-                { src: "projects/cerimonias/images/1.jpg" }
+                { src: "projects/cerimonias/images/1.JPG" },
+                { src: "projects/cerimonias/images/1.JPG" }
             ]
         }
     ]

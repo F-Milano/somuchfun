@@ -2,7 +2,7 @@ export default {
     id: "ciabot-montebellina",
     title: "Ciabot Montebellina",
 
-    icon: "projects/ciabot-montebellina/icon.webp",
+    icon: "projects/montebellina/icon.webp",
 
     description: `
         A single-family retreat nestled among the rolling vineyards of Alba, Italy.
@@ -24,9 +24,9 @@ export default {
         {
             type: "row",
             images: [
-                { src: "projects/ciabot-montebellina/images/20260723_130305.jpg" },
-                { src: "projects/ciabot-montebellina/images/20260723_125705.jpg" },
-                { src: "projects/ciabot-montebellina/images/20260723_125846.jpg" }
+                { src: "projects/montebellina/images/20260723_130305.jpg" },
+                { src: "projects/montebellina/images/20260723_125705.jpg" },
+                { src: "projects/montebellina/images/20260723_125846.jpg" }
             ]
         }
     ]
