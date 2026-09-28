@@ -8,8 +8,6 @@
    ========================================================= */
 
 :root {
-    --project-window-height: 78vh;
-    --project-window-max-height: 850px;
     /* Project padding on all sides: vw follows viewport width; px sets fixed limits. */
     --project-side-margin-min: 20px;
     --project-side-margin-fluid: 3vw;
@@ -149,18 +147,6 @@ body {
     z-index: 1000;
 
 
-}
-
-/* The upper gap is half the unused viewport height; center the name in it. */
-body:has(#project-overlay.is-open) #introduction {
-    top: calc((100vh - min(var(--project-window-height), var(--project-window-max-height))) / 4);
-    transform: translateY(-50%);
-}
-
-@media (max-width: 600px), (max-height: 600px) {
-    body:has(#project-overlay.is-open) #introduction {
-        visibility: hidden;
-    }
 }
 
 #about-link {
@@ -376,10 +362,10 @@ body.is-about #canvas {
     */
 
     width: 78vw;
-    height: var(--project-window-height);
+    height: 78vh;
 
     max-width: 1200px;
-    max-height: var(--project-window-max-height);
+    max-height: 850px;
 
 
     /*
