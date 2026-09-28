@@ -575,11 +575,11 @@ function renderProjectContent(project, container) {
             }
         } else if (block?.type === "row" && Array.isArray(block.images)) {
             const figures = block.images.map(createImage).filter(Boolean);
-            // At most three columns. Accidental extra images continue in another row.
-            for (let index = 0; index < figures.length; index += 3) {
+            // At most four columns. Extra images continue in another row.
+            for (let index = 0; index < figures.length; index += 4) {
                 const row = document.createElement("div");
                 row.classList.add("project-image-row");
-                row.append(...figures.slice(index, index + 3));
+                row.append(...figures.slice(index, index + 4));
                 container.appendChild(row);
             }
         }
