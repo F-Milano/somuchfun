@@ -11,7 +11,7 @@ export default {
     details: "Buenos Aires, Argentina, 2017",
 
     credits: `
-    Karen Antorveza.
+    Karen Antorveza, Santiago Nuñez Villami, Fabian Wagmister, cheLA, TedX.
     `,
 
     color: "#FFFFFF",
@@ -24,6 +24,14 @@ export default {
             images: [
                 { src: "projects/dahlia/images/1.webp" },
                 { src: "projects/dahlia/images/2.webp" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/dahlia/images/10.webp" },
+                { src: "projects/dahlia/images/12.webp" }
             ]
         }
     ]
