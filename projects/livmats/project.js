@@ -39,11 +39,6 @@ export default {
 
     // Ordered editorial blocks. Use layout: "medium" or type: "row" as needed.
     content: [
-        {
-            type: "video",
-            src: "https://player.vimeo.com/video/576404217?title=0&byline=0&portrait=0",
-            title: "LivMatS"
-        },
 
         {
             type: "row",
@@ -103,9 +98,15 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/16.jpg" },
-                { src: "projects/tamaco/images/17.jpg" },
-                { src: "projects/tamaco/images/18.jpg" }
+                { src: "projects/livmats/images/17.jpg" },
+                { src: "projects/livmats/images/18.jpg" }
             ]
+        },
+
+        {
+            type: "video",
+            src: "https://player.vimeo.com/video/576404217?title=0&byline=0&portrait=0",
+            title: "LivMatS"
         }
     ]
 };
