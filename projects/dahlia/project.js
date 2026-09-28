@@ -22,8 +22,8 @@ export default {
         {
             type: "row",
             images: [
-                { src: "projects/dahlia/images/2.png" },
-                { src: "projects/dahlia/images/5.jpg" }
+                { src: "projects/dahlia/images/1.webp" },
+                { src: "projects/dahlia/images/2.webp" }
             ]
         }
     ]
