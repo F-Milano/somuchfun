@@ -476,12 +476,8 @@ function renderProjectPage() {
         info.appendChild(paragraph);
     }
 
-    // The first material item leads the project; the rest follows the description.
-    const material = document.createDocumentFragment();
-    renderProjectContent(activeProject, material);
-    if (material.firstElementChild) info.appendChild(material.firstElementChild);
     appendText(activeProject.description);
-    info.appendChild(material);
+    renderProjectContent(activeProject, info);
 
     const credits = activeProject.credits?.trim().replace(/^credits\s*:\s*/i, "");
     if (credits) appendText(`Credits: ${credits}`);
