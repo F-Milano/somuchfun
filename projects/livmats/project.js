@@ -47,6 +47,13 @@ export default {
                     title: "LivsMats"
                 }
             ]
+        },
+
+        {
+            type: "image",
+            videos: [
+                { src: "projects/livmats/images/gif.gif" }
+            ]
         }
     ]
 };
