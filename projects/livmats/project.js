@@ -2,7 +2,7 @@ export default {
     id: "livsmats",
     title: "**LivMatS** - ITECH Pavillion 2020-2021",
 
-    icon: "projects/montebellina/icon.webp",
+    icon: "projects/livmats/icon.webp",
 
     description: `
     Located in the Botanical Garden of the University of Freiburg, the livMatS Pavilion 

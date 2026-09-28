@@ -14,11 +14,13 @@ import montebellina from "./montebellina/project.js";
 import cerimonias from "./cerimonias/project.js";
 import dahlia from "./dahlia/project.js";
 import tamaco from "./tamaco/project.js";
+import livmats from "./livmats/project.js";
 
 
 export const projects = [
     montebellina,
     cerimonias,
     dahlia,
-    tamaco
+    tamaco,
+    livmats
 ];
