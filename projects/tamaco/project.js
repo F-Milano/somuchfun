@@ -118,7 +118,7 @@ export default {
                     title: "TaMaCo_2016"
                 }
             ]
-        }
+        },
 
         {
             type: "video-row",
