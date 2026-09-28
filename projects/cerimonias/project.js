@@ -5,7 +5,7 @@ export default {
     icon: "projects/cerimonias/icon.webp",
 
     description: `
-        “Edificio para cerimonias desconocidas” is a 12 m width timber structure. 
+        Edificio para cerimonias desconocidas” is a 12 m width timber structure. 
         Due to its peculiar geometry, it can be defined both as a fence wall, 
         protecting an enclosed intimate space, and the access to that space itself. 
         In fact, reaching the core is only possible by running across the ascending and 
@@ -21,7 +21,7 @@ export default {
         The project was buildt in the first edition of Hello Wood Argentina.
     `,
 
-    details: "",
+    details: "Ceibas, Entre Rios, Argentina - 2016",
 
     credits: `
         Karen Antorveza, Marco Ignacio Correa Panizzi, Lucila Vidal, Paula Gonzalez, Hello Wood Argentina. PH: Fernando Schapochnik. Drone: Bernardo Ramirez.
@@ -36,7 +36,23 @@ export default {
             type: "row",
             images: [
                 { src: "projects/cerimonias/images/1.JPG" },
-                { src: "projects/cerimonias/images/1.JPG" }
+                { src: "projects/cerimonias/images/5.JPG" }
+            ]
+        }
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/cerimonias/images/2.JPG" },
+                { src: "projects/cerimonias/images/3.JPG" }
+            ]
+        }
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/cerimonias/images/4.JPG" },
+                { src: "projects/cerimonias/images/6.JPG" }
             ]
         }
     ]

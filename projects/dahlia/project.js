@@ -8,7 +8,7 @@ export default {
         ... “starting from the innovative 3D printer by Barilla, which enables the exploration of new frontiers and to engage in otherwise impossible tracks using the current industrial production technologies, you are invited to propose the design of new pasta shapes to be exclusively realisable through 3D printing technology, conveying all the passion for pasta and for aesthetics into innovative and unique shapes.” ...
     `,
 
-    details: "",
+    details: "Argentina, 2017",
 
     credits: `
         Karen Antorveza.
