@@ -8,6 +8,9 @@
    ========================================================= */
 
 :root {
+    /* Shared screen inset for the name and the project rectangle. */
+    --screen-inset: 30px;
+
     /* Project padding on all sides: vw follows viewport width; px sets fixed limits. */
     --project-side-margin-min: 20px;
     --project-side-margin-fluid: 3vw;
@@ -117,9 +120,9 @@ body {
 
     position: fixed;
 
-    left: 30px;
-    top: 30px;
-    right: 30px;
+    left: var(--screen-inset);
+    top: var(--screen-inset);
+    right: var(--screen-inset);
     line-height: 1.2;
     pointer-events: none;
 
@@ -161,7 +164,7 @@ body {
 }
 
 body.is-about #introduction {
-    max-height: calc(100dvh - 60px);
+    max-height: calc(100dvh - 2 * var(--screen-inset));
     padding-right: 52px;
     text-align: left;
     overflow-y: auto;
@@ -351,21 +354,15 @@ body.is-about #canvas {
 
 #project-window {
 
-    position: relative;
+    position: absolute;
 
 
     /*
-       Desktop dimensions.
-
-       The window deliberately does not fill the whole screen,
-       allowing the homepage composition to remain visible.
+       Follow the name's screen inset on every side, covering
+       the name while keeping an equal border around the window.
     */
 
-    width: 78vw;
-    height: 78vh;
-
-    max-width: 1200px;
-    max-height: 850px;
+    inset: var(--screen-inset);
 
 
     /*
@@ -634,24 +631,6 @@ body.is-about #canvas {
             var(--mobile-project-width),
             var(--mobile-project-max-width)
         );
-    }
-
-
-    /* -----------------------------------------------------
-       Project window
-
-       Almost fullscreen, but with a small border around it
-       so the homepage remains visible.
-       ----------------------------------------------------- */
-
-    #project-window {
-
-        width: calc(100vw - 20px);
-        height: calc(100vh - 20px);
-        height: calc(100dvh - 20px);
-
-        max-width: none;
-        max-height: none;
     }
 
 
