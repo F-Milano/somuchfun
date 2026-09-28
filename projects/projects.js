@@ -16,6 +16,7 @@ import dahlia from "./dahlia/project.js";
 import tamaco from "./tamaco/project.js";
 import livmats from "./livmats/project.js";
 import palabras from "./palabras/project.js";
+import furetsu from "./furetsu/project.js";
 
 export const projects = [
     montebellina,
@@ -23,5 +24,6 @@ export const projects = [
     dahlia,
     tamaco,
     livmats,
-    palabras
+    palabras,
+    furetsu
 ];
