@@ -78,7 +78,7 @@ export default {
             images: [
                 { src: "projects/furetsu/images/2b.webp" },
                 { src: "projects/furetsu/images/3b.webp" },
-                { src: "projects/furetsu/images/4b.webp" },
+                { src: "projects/furetsu/images/4b.gif" },
                 { src: "projects/furetsu/images/6b.webp" }
             ]
         },
