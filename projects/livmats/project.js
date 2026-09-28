@@ -46,8 +46,66 @@ export default {
         },
 
         {
-            type: "image",
-            src: "projects/livmats/images/gif.gif"
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/1.jpg" },
+                { src: "projects/tamaco/images/2.jpg" },
+                { src: "projects/tamaco/images/3.jpg" }
+            ]
+        },
+
+                {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/4.jpg" },
+                { src: "projects/tamaco/images/5.jpg" },
+                { src: "projects/tamaco/images/6.jpg" }
+            ]
+        },
+
+                {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/7.jpg" },
+                { src: "projects/tamaco/images/8.jpg" },
+                { src: "projects/tamaco/images/9.jpg" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/7.jpg" },
+                { src: "projects/tamaco/images/8.jpg" },
+                { src: "projects/tamaco/images/9.jpg" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/10.jpg" },
+                { src: "projects/tamaco/images/11.jpg" },
+                { src: "projects/tamaco/images/12.jpg" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/13.jpg" },
+                { src: "projects/tamaco/images/14.jpg" },
+                { src: "projects/tamaco/images/15.jpg" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/livmats/images/16.jpg" },
+                { src: "projects/tamaco/images/17.jpg" },
+                { src: "projects/tamaco/images/18.jpg" }
+            ]
         }
     ]
 };
