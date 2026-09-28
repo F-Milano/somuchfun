@@ -140,15 +140,11 @@ function positionProjectRandomly(projectElement) {
 
 
     const titleRect = document.querySelector("#about-link").getBoundingClientRect();
-    const obstacles = Array.from(
-        document.querySelectorAll('.project[data-initialized="true"]')
-    ).filter((element) => element !== projectElement)
-        .map((element) => element.getBoundingClientRect());
     let x = screenMargin;
-    let y = screenMargin;
-    let bestScore = Infinity;
+    // If random attempts fail, fall back below the name rather than behind it.
+    let y = Math.max(screenMargin, titleRect.bottom + 16);
 
-    // Prefer clear space for the whole revealed icon, with a small gap.
+    // Icons may overlap each other; only the name needs a clear gap.
     for (let attempt = 0; attempt < 200; attempt += 1) {
         const candidateX = screenMargin + Math.random() * availableWidth;
         const candidateY = screenMargin + Math.random() * availableHeight;
@@ -156,21 +152,9 @@ function positionProjectRandomly(projectElement) {
             candidateX < titleRect.right + 16 && candidateX + width > titleRect.left - 16 &&
             candidateY < titleRect.bottom + 16 && candidateY + height > titleRect.top - 16
         ) continue;
-        const score = obstacles.reduce((total, rect) => {
-            const overlapWidth = Math.max(0,
-                Math.min(candidateX + width, rect.right + 16) -
-                Math.max(candidateX, rect.left - 16));
-            const overlapHeight = Math.max(0,
-                Math.min(candidateY + height, rect.bottom + 16) -
-                Math.max(candidateY, rect.top - 16));
-            return total + overlapWidth * overlapHeight;
-        }, 0);
-        if (score < bestScore) {
-            bestScore = score;
-            x = candidateX;
-            y = candidateY;
-        }
-        if (score === 0) break;
+        x = candidateX;
+        y = candidateY;
+        break;
     }
 
 
