@@ -22,17 +22,59 @@ export default {
         {
             type: "row",
             images: [
-                { src: "projects/dahlia/images/1.webp" },
-                { src: "projects/dahlia/images/2.webp" }
+                { src: "projects/furetsu/images/1.webp" },
+                { src: "projects/furetsu/images/2.webp" }
             ]
         },
 
         {
             type: "row",
             images: [
-                { src: "projects/dahlia/images/10.webp" },
-                { src: "projects/dahlia/images/12.webp" }
+                { src: "projects/furetsu/images/10.webp" },
+                { src: "projects/furetsu/images/12.webp" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/furetsu/images/4.webp" },
+                { src: "projects/furetsu/images/6.webp" },
+                { src: "projects/furetsu/images/5.webp" }
+            ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/furetsu/images/7.webp" },
+                { src: "projects/furetsu/images/9.webp" },
+                { src: "projects/furetsu/images/3.webp" }
+            ]
+        },
+
+        {
+            type: "image",
+            images: [
+                { src: "projects/furetsu/images/1a.webp" }
+            ]
+        },
+
+        {
+            type: "image",
+            images: [
+                { src: "projects/furetsu/images/3a.webp" }
             ]
         }
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/furetsu/images/2b.webp" },
+                { src: "projects/furetsu/images/3b.webp" },
+                { src: "projects/furetsu/images/4b.webp" },
+                { src: "projects/furetsu/images/6b.webp" }
+            ]
+        },
     ]
 };
