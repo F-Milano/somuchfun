@@ -33,6 +33,14 @@ export default {
                 { src: "projects/palabras/images/3.webp" },
                 { src: "projects/palabras/images/4.webp" }
             ]
+        },
+
+        {
+            type: "row",
+            images: [
+                { src: "projects/palabras/images/3.gif" },
+                { src: "projects/palabras/images/4.gif" }
+            ]
         }
     ]
 };
