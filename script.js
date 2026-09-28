@@ -458,9 +458,31 @@ function renderProjectPage() {
 
     renderProjectContent(activeProject, info);
 
-    appendText(activeProject.credits);
+    const credits = activeProject.credits?.trim().replace(/^credits\s*:\s*/i, "");
+    if (credits) appendText(`Credits: ${credits}`);
     projectContent.appendChild(info);
+    fitProjectTitle();
 }
+
+// Start at the CSS size, then shrink only when the title exceeds its container.
+function fitProjectTitle() {
+    const title = projectContent.querySelector("h1");
+    if (!title || !activeProject) return;
+
+    title.style.removeProperty("font-size");
+    const availableWidth = title.getBoundingClientRect().width;
+    if (availableWidth <= 0) return;
+
+    const fontSize = parseFloat(getComputedStyle(title).fontSize);
+    const range = document.createRange();
+    range.selectNodeContents(title);
+    const textWidth = range.getBoundingClientRect().width;
+    if (textWidth > availableWidth) {
+        title.style.fontSize = `${fontSize * (availableWidth / textWidth) * 0.99}px`;
+    }
+}
+
+document.fonts.ready.then(fitProjectTitle);
 
 
 // ============================================================
@@ -591,6 +613,7 @@ document.addEventListener("keydown", (event) => {
 // ============================================================
 
 window.addEventListener("resize", () => {
+    fitProjectTitle();
 
     const projectElements =
         document.querySelectorAll(".project");

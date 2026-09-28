@@ -409,6 +409,7 @@ body.is-about #canvas {
 
 
 .project-info h1 {
+    white-space: nowrap;
 
     margin: 0 0 30px 0;
     text-align: center;
