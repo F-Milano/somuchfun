@@ -41,19 +41,13 @@ export default {
     content: [
         {
             type: "video",
-            videos: [
-                {
-                    src: "https://player.vimeo.com/video/576404217?title=0&byline=0&portrait=0",
-                    title: "LivsMats"
-                }
-            ]
+            src: "https://player.vimeo.com/video/576404217?title=0&byline=0&portrait=0",
+            title: "LivMatS"
         },
 
         {
             type: "image",
-            videos: [
-                { src: "projects/livmats/images/gif.gif" }
-            ]
+            src: "projects/livmats/images/gif.gif"
         }
     ]
 };
