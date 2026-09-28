@@ -597,6 +597,10 @@ body.is-about #canvas {
    ========================================================= */
 
 @media (max-width: 600px) {
+    .project-video-slot {
+        display: none;
+    }
+
     :root {
         --project-side-margin: var(--project-side-margin-mobile);
     }

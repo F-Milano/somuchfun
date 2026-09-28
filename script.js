@@ -575,7 +575,14 @@ function renderProjectContent(project, container) {
         } else if (block?.type === "video" && block.src) {
             container.appendChild(createVideo(block));
         } else if (block?.type === "video-row" && Array.isArray(block.videos)) {
-            const videos = block.videos.map(createVideo).filter(Boolean);
+            const videos = block.videos.map((entry) => {
+                if (entry !== null) return createVideo(entry);
+                // Explicit null entries reserve a column without loading a video.
+                const slot = document.createElement("div");
+                slot.classList.add("project-video-slot");
+                slot.setAttribute("aria-hidden", "true");
+                return slot;
+            }).filter(Boolean);
             for (let index = 0; index < videos.length; index += 3) {
                 const row = document.createElement("div");
                 row.classList.add("project-video-row");
