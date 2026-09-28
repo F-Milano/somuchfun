@@ -1,7 +1,6 @@
 export default {
     id: "dahlia",
-    title: "Dahlia",
-    subtitle: "Barilla Smart Pasta Competition Entry",
+    title: "**Dahlia** - Barilla Smart Pasta Competition Entry",
 
     icon: "projects/dahlia/icon.webp",
 

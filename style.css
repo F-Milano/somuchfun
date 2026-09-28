@@ -451,11 +451,6 @@ body.is-about #canvas {
     line-height: 1.2;
 }
 
-.project-info .project-subtitle {
-    font-size: clamp(20px, 3vw, 40px);
-    font-weight: normal;
-}
-
 .project-info .project-header > :last-child {
     margin-bottom: 0;
 }

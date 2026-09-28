@@ -70,14 +70,14 @@ projects.forEach((project) => {
     projectElement.classList.add("project");
     projectElement.href = "#";
     projectElement.dataset.project = project.id;
-    projectElement.setAttribute("aria-label", project.title);
+    projectElement.setAttribute("aria-label", plainProjectTitle(project.title));
 
 
     // Create project icon image
     const image = document.createElement("img");
 
     image.src = project.icon;
-    image.alt = project.title;
+    image.alt = plainProjectTitle(project.title);
     image.draggable = false;
 
 
@@ -435,6 +435,11 @@ function closeProject() {
 // SCROLLING PROJECT PAGE
 // ============================================================
 
+// Titles support **bold text**; labels use the same title without formatting.
+function plainProjectTitle(title) {
+    return title.replace(/\*\*([^*]+)\*\*/g, "$1");
+}
+
 function renderProjectPage() {
 
     projectContent.innerHTML = "";
@@ -446,9 +451,17 @@ function renderProjectPage() {
     header.classList.add("project-header");
     info.appendChild(header);
     const title = document.createElement("h1");
-    title.textContent = activeProject.title;
+    activeProject.title.split(/(\*\*[^*]+\*\*)/g).forEach((part) => {
+        if (/^\*\*[^*]+\*\*$/.test(part)) {
+            const bold = document.createElement("strong");
+            bold.textContent = part.slice(2, -2);
+            title.appendChild(bold);
+        } else {
+            title.appendChild(document.createTextNode(part));
+        }
+    });
     header.appendChild(title);
-    for (const field of ["subtitle", "details"]) {
+    for (const field of ["details"]) {
         if (!activeProject[field]?.trim()) continue;
         const line = document.createElement("p");
         line.classList.add(`project-${field}`);
@@ -517,7 +530,7 @@ function renderProjectContent(project, container) {
 
         const image = document.createElement("img");
         image.src = entry.src;
-        image.alt = entry.alt || `${project.title} - image ${imageNumber}`;
+        image.alt = entry.alt || `${plainProjectTitle(project.title)} - image ${imageNumber}`;
         image.classList.add("project-page-image");
         image.draggable = false;
         figure.appendChild(image);
@@ -543,7 +556,7 @@ function renderProjectContent(project, container) {
         const video = document.createElement("iframe");
         video.classList.add("project-page-video");
         video.src = entry.src;
-        video.title = entry.title || `${project.title} - video`;
+        video.title = entry.title || `${plainProjectTitle(project.title)} - video`;
         video.width = "640";
         video.height = "360";
         video.referrerPolicy = "strict-origin-when-cross-origin";
