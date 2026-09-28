@@ -54,6 +54,31 @@ export default {
                 { src: "projects/cerimonias/images/4b.jpg" },
                 { src: "projects/cerimonias/images/6.jpg" }
             ]
-        }
+        },
+
+        {
+            type: "image",
+            src: "projects/cerimonias/images/1d.png"
+        },
+
+        {
+            type: "image",
+            src: "projects/cerimonias/images/2d.png"
+        },
+
+        {
+            type: "image",
+            src: "projects/cerimonias/images/3d.png"
+        },
+
+        {
+            type: "image",
+            src: "projects/cerimonias/images/4d.png"
+        },
+
+        {
+            type: "image",
+            src: "projects/cerimonias/images/5d.png"
+        },
     ]
 };
