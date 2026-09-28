@@ -20,5 +20,13 @@ The amount of timber employed was optimized to correspond exactly to the amount 
     textColor: "#FF3224",
 
     // Ordered image/row blocks; full and medium images can have captions.
-    content: []
+    content: [
+        {
+            type: "row",
+            images: [
+                { src: "projects/cerimonias/images/1.jpg" },
+                { src: "projects/cerimonias/images/1.jpg" }
+            ]
+        }
+    ]
 };

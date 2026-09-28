@@ -10,14 +10,14 @@
 // 4. Add it to the projects array
 // ============================================================
 
-import ciabotMontebellina from "./ciabot-montebellina/project.js";
-import cerimonias from "./edificio-para-cerimonias-desconocidas/project.js";
+import montebellina from "./montebellina/project.js";
+import cerimonias from "./cerimonias/project.js";
 import dahlia from "./dahlia/project.js";
 import tamaco from "./tamaco/project.js";
 
 
 export const projects = [
-    ciabotMontebellina,
+    montebellina,
     cerimonias,
     dahlia,
     tamaco
