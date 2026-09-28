@@ -49,8 +49,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/1.jpg" },
-                { src: "projects/tamaco/images/2.jpg" },
-                { src: "projects/tamaco/images/3.jpg" }
+                { src: "projects/livmats/images/2.jpg" },
+                { src: "projects/livmats/images/3.jpg" }
             ]
         },
 
@@ -58,8 +58,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/4.jpg" },
-                { src: "projects/tamaco/images/5.jpg" },
-                { src: "projects/tamaco/images/6.jpg" }
+                { src: "projects/livmats/images/5.jpg" },
+                { src: "projects/livmats/images/6.jpg" }
             ]
         },
 
@@ -67,8 +67,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/7.jpg" },
-                { src: "projects/tamaco/images/8.jpg" },
-                { src: "projects/tamaco/images/9.jpg" }
+                { src: "projects/livmats/images/8.jpg" },
+                { src: "projects/livmats/images/9.jpg" }
             ]
         },
 
@@ -76,8 +76,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/7.jpg" },
-                { src: "projects/tamaco/images/8.jpg" },
-                { src: "projects/tamaco/images/9.jpg" }
+                { src: "projects/livmats/images/8.jpg" },
+                { src: "projects/livmats/images/9.jpg" }
             ]
         },
 
@@ -85,8 +85,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/10.jpg" },
-                { src: "projects/tamaco/images/11.jpg" },
-                { src: "projects/tamaco/images/12.jpg" }
+                { src: "projects/livmats/images/11.jpg" },
+                { src: "projects/livmats/images/12.jpg" }
             ]
         },
 
@@ -94,8 +94,8 @@ export default {
             type: "row",
             images: [
                 { src: "projects/livmats/images/13.jpg" },
-                { src: "projects/tamaco/images/14.jpg" },
-                { src: "projects/tamaco/images/15.jpg" }
+                { src: "projects/livmats/images/14.jpg" },
+                { src: "projects/livmats/images/15.jpg" }
             ]
         },
 
