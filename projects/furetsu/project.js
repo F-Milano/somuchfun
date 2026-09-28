@@ -20,6 +20,12 @@ export default {
     // Ordered image/row blocks; full and medium images can have captions.
     content: [
         {
+            type: "video",
+            src: "https://player.vimeo.com/video/246269589?title=0&byline=0&portrait=0",
+            title: "LivMatS"
+        },
+
+        {
             type: "row",
             images: [
                 { src: "projects/furetsu/images/1.webp" },
@@ -65,7 +71,7 @@ export default {
             images: [
                 { src: "projects/furetsu/images/3a.webp" }
             ]
-        }
+        },
 
         {
             type: "row",
