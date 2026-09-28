@@ -442,9 +442,19 @@ function renderProjectPage() {
     const info = document.createElement("article");
     info.classList.add("project-info");
 
+    const header = document.createElement("header");
+    header.classList.add("project-header");
+    info.appendChild(header);
     const title = document.createElement("h1");
     title.textContent = activeProject.title;
-    info.appendChild(title);
+    header.appendChild(title);
+    for (const field of ["subtitle", "details"]) {
+        if (!activeProject[field]?.trim()) continue;
+        const line = document.createElement("p");
+        line.classList.add(`project-${field}`);
+        line.textContent = activeProject[field].trim();
+        header.appendChild(line);
+    }
 
     function appendText(value) {
         if (!value?.trim()) return;
@@ -453,7 +463,6 @@ function renderProjectPage() {
         info.appendChild(paragraph);
     }
 
-    appendText(activeProject.details);
     appendText(activeProject.description);
 
     renderProjectContent(activeProject, info);
@@ -461,28 +470,27 @@ function renderProjectPage() {
     const credits = activeProject.credits?.trim().replace(/^credits\s*:\s*/i, "");
     if (credits) appendText(`Credits: ${credits}`);
     projectContent.appendChild(info);
-    fitProjectTitle();
+    fitProjectHeader();
 }
 
-// Start at the CSS size, then shrink only when the title exceeds its container.
-function fitProjectTitle() {
-    const title = projectContent.querySelector("h1");
-    if (!title || !activeProject) return;
-
-    title.style.removeProperty("font-size");
-    const availableWidth = title.getBoundingClientRect().width;
-    if (availableWidth <= 0) return;
-
-    const fontSize = parseFloat(getComputedStyle(title).fontSize);
-    const range = document.createRange();
-    range.selectNodeContents(title);
-    const textWidth = range.getBoundingClientRect().width;
-    if (textWidth > availableWidth) {
-        title.style.fontSize = `${fontSize * (availableWidth / textWidth) * 0.99}px`;
-    }
+// Fit each header line independently, restoring its CSS size before measuring.
+function fitProjectHeader() {
+    if (!activeProject) return;
+    projectContent.querySelectorAll(".project-header > *").forEach((line) => {
+        line.style.removeProperty("font-size");
+        const availableWidth = line.getBoundingClientRect().width;
+        if (availableWidth <= 0) return;
+        const fontSize = parseFloat(getComputedStyle(line).fontSize);
+        const range = document.createRange();
+        range.selectNodeContents(line);
+        const textWidth = range.getBoundingClientRect().width;
+        if (textWidth > availableWidth) {
+            line.style.fontSize = `${fontSize * (availableWidth / textWidth) * 0.99}px`;
+        }
+    });
 }
 
-document.fonts.ready.then(fitProjectTitle);
+document.fonts.ready.then(fitProjectHeader);
 
 
 // ============================================================
@@ -613,7 +621,7 @@ document.addEventListener("keydown", (event) => {
 // ============================================================
 
 window.addEventListener("resize", () => {
-    fitProjectTitle();
+    fitProjectHeader();
 
     const projectElements =
         document.querySelectorAll(".project");

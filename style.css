@@ -440,6 +440,26 @@ body.is-about #canvas {
 
 
 
+.project-header {
+    margin-bottom: 30px;
+}
+
+.project-info .project-header > * {
+    white-space: nowrap;
+    text-align: left;
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.project-info .project-subtitle {
+    font-size: clamp(20px, 3vw, 40px);
+    font-weight: normal;
+}
+
+.project-info .project-header > :last-child {
+    margin-bottom: 0;
+}
+
 /* Editorial layouts are chosen in project data, never from image orientation. */
 .project-image-item {
     min-width: 0;
