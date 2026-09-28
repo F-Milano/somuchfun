@@ -58,27 +58,27 @@ export default {
 
         {
             type: "image",
-            src: "projects/cerimonias/images/1d.png"
+            src: "projects/cerimonias/images/1d.jpg"
         },
 
         {
             type: "image",
-            src: "projects/cerimonias/images/2d.png"
+            src: "projects/cerimonias/images/2d.jpg"
         },
 
         {
             type: "image",
-            src: "projects/cerimonias/images/3d.png"
+            src: "projects/cerimonias/images/3d.jpg"
         },
 
         {
             type: "image",
-            src: "projects/cerimonias/images/4d.png"
+            src: "projects/cerimonias/images/4d.jpg"
         },
 
         {
             type: "image",
-            src: "projects/cerimonias/images/5d.png"
+            src: "projects/cerimonias/images/5d.jpg"
         },
     ]
 };
