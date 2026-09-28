@@ -165,7 +165,7 @@ body {
 
 body.is-about #introduction {
     max-height: calc(100dvh - 2 * var(--screen-inset));
-    padding-right: 52px;
+    padding-right: calc(var(--project-side-margin) + 8px);
     text-align: left;
     overflow-y: auto;
     pointer-events: auto;
@@ -177,22 +177,10 @@ body.is-about #canvas {
 
 #back-to-projects:not([hidden]) {
     position: fixed;
-    top: 22px;
-    right: 22px;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
+    top: var(--screen-inset);
+    right: var(--screen-inset);
     color: #000;
     pointer-events: auto;
-}
-
-#back-to-projects svg {
-    width: 28px;
-    height: 28px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
 }
 
 
@@ -559,7 +547,10 @@ body.is-about #canvas {
 
     top: 0;
     right: 0;
+}
 
+#project-close,
+#back-to-projects:not([hidden]) {
     width: var(--project-side-margin);
     height: var(--project-side-margin);
     min-width: 0;
@@ -572,7 +563,8 @@ body.is-about #canvas {
 }
 
 /* Symmetric geometry keeps the visible X equally inset from both edges. */
-#project-close svg {
+#project-close svg,
+#back-to-projects svg {
     display: block;
     width: 100%;
     height: 100%;
@@ -589,7 +581,7 @@ body.is-about #canvas {
    ========================================================= */
 
 @media (max-width: 600px) {
-    #project-window {
+    :root {
         --project-side-margin: var(--project-side-margin-mobile);
     }
 
